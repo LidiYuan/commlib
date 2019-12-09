@@ -1,0 +1,15 @@
+#ifndef __COMMFUN_H
+#define __COMMFUN_H
+
+/////////////////////about net/////////////////////////
+#define COMM_STOP_IPGET -1
+#define COMM_CONTINUE_IPGET 0
+typedef int (*COMM_SIP_CALLBACK)(void *arg,const char *ipbuff);
+
+extern int com_foreach_local_ipv4(COMM_SIP_CALLBACK singleip,void *arg);
+extern int com_is_local_ipv4(const char *ipv4addr);
+
+
+
+
+#endif
