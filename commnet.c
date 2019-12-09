@@ -89,16 +89,6 @@ int com_is_local_ipv4(const char *ipv4addr)
 }
 
 
-int com_create_local_server(const char *path)
-{
-        	
-
-}
-
-int com_create_local_client(const char *path)
-{
-
-}
 
 
 
