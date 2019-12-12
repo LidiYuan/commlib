@@ -1,25 +1,43 @@
 CC=gcc
 AR =ar
-CFLAGS= -Wall -g -c
+PWD=$(shell pwd)
 
-NETBIN=testnet
-LIBCOMM=libcommfun.a
+OBJDIR=objdir
+INCLUDE= ./include
+CFLAGS= -Wall -g
+ 
+LIBSRC=$(wildcard *.c)
+TESTSRC=$(wildcard test/*.c)
+ALLSRCS=$(LIBSRC) $(TESTSRC)
 
-COMMSRC=commnet.c
-NETOBJ=commnet.o testnet.o
-COMMOBJ=commnet.o
+NETBIN=$(OBJDIR)/testnet
+FILEBIN=$(OBJDIR)/testfile
+LIBCOMM=$(OBJDIR)/libcommfun.a
+LIBCOMMSO=$(OBJDIR)/libcommfun.so
 
-default: $(LIBCOMM) $(NETBIN)
+FILEOBJ=$(OBJDIR)/commfile.o $(OBJDIR)/testfile.o
+NETOBJ=$(OBJDIR)/commnet.o $(OBJDIR)/testnet.o
+COMMOBJ=$(OBJDIR)/commnet.o
 
-$(NETBIN):testnet.c
-	$(CC) $(CFLAGS)  -c $^
-	$(CC) $(NETOBJ) -o  $@
 
-$(LIBCOMM):$(COMMSRC)
-	$(CC) $(CFLAGS) $^
-	$(AR) -rcs $@  $(COMMOBJ)
+default: allobj $(LIBCOMM) $(NETBIN) $(FILEBIN) $(LIBCOMMSO)
+
+allobj:$(ALLSRCS)
+	@rm -rf $(OBJDIR)
+	@mkdir $(OBJDIR)
+	$(CC) -c  $^  -I$(INCLUDE) $(CFLAGS)
+	@mv *.o $(OBJDIR)
+$(LIBCOMMSO):$(LIBSRC)
+	$(CC) -fPIC --shared $^ -I$(INCLUDE) -o $@
+
+$(FILEBIN):$(FILEOBJ)
+	$(CC) $^ -o $@
+
+$(NETBIN):$(NETOBJ)
+	$(CC) $^ -o  $@
+
+$(LIBCOMM):$(COMMOBJ)
+	$(AR) -rcs $@  $^
 
 clean:
-	rm -rf *.o
-	rm -rf $(NETBIN)
-	rm -rf $(LIBCOMM)
+	@rm -rf $(OBJDIR)

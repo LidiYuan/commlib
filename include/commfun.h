@@ -11,5 +11,9 @@ extern int com_is_local_ipv4(const char *ipv4addr);
 
 
 
+////////////////////////about file///////////////////////////
+typedef int (*pidcallback)(const char *fpath,void *userarg);
+extern int comm_list_all_procpid(pidcallback callback,void *usrarg);
+
 
 #endif
