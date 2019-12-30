@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "commfun.h"
+#include "gencompo4c.h"
 
 
 int callback(const char *fpath,void *userarg)

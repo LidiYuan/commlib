@@ -1,5 +1,5 @@
-#ifndef __COMMFUN_H
-#define __COMMFUN_H
+#ifndef __GENCOMPO4C_H
+#define __GENCOMPO4C_H
 
 /////////////////////about net/////////////////////////
 #define COMM_STOP_IPGET -1

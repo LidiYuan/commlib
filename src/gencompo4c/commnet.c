@@ -5,7 +5,7 @@
 #include <netinet/in.h> 
 #include <string.h> 
 #include <arpa/inet.h>
-#include "commfun.h"
+#include "gencompo4c.h"
 
 
 int com_foreach_local_ipv4(COMM_SIP_CALLBACK singleip,void *arg)

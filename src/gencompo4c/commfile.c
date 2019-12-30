@@ -6,7 +6,7 @@
 #include <pthread.h>
 #include <string.h>
 #include "list.h"
-#include "commfun.h"
+#include "gencompo4c.h"
 
 typedef struct{
     pidcallback funaddr;
