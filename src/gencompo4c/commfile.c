@@ -1,103 +1,49 @@
-#define _XOPEN_SOURCE 500
-#define _GNU_SOURCE
-#include <ftw.h>
+#include <sys/types.h>
+#include <dirent.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
 #include <string.h>
-#include "list.h"
 #include "gencompo4c.h"
 
-typedef struct{
-    pidcallback funaddr;
-    pthread_t pthid;
-    void *arg;
-    struct list_head list;
-}PidCallBackList;
-
-static struct list_head g_pidlistcallback={&g_pidlistcallback,&g_pidlistcallback};
-
-static int comm_list_proc_pid(const char *fpath, const struct stat *sb, int typeflag, struct FTW *ftwbuf)
+#define PROC_DIR "/proc"
+int comm_find_proc_pid(procpid_cb callback,void *userarg)
 {
-    struct list_head *pos,*tmp;
-    PidCallBackList *pNode = NULL;
-    int find = 0;
-    int ret = 0;
-    int pid;
+     struct dirent *pent =NULL;
+     char *pathbuff = NULL;
+     int ret = 0;
 
-    if( NULL == fpath && ftwbuf==NULL &&  NULL == sb)    	
-    {  	 
-        if( nftw("/proc",comm_list_proc_pid,10,FTW_PHYS | FTW_ACTIONRETVAL ) < 0 )
-        {
-            return -1;
-        }
-    }
-    else
-    {
-	if ( !strcmp(fpath, "/proc") )
-	    return 0;
+     DIR *dir = opendir(PROC_DIR);
 
-        if ( !(typeflag&FTW_D) )
-            return 0;
-    
-        pid = atoi(fpath + ftwbuf->base);
-        if( 0 == pid )
-            return FTW_SKIP_SUBTREE;
+     if(NULL == dir)
+         return RET_FAILED;
 
-        if( ftwbuf->level > 2 )
-	    return FTW_SKIP_SUBTREE;	
-         
-        list_for_each_safe(pos,tmp,&g_pidlistcallback)
-        {
-	   pNode = container_of(pos,PidCallBackList,list);
-	   if(pNode->pthid == pthread_self() )
-	   {
-	       find = 1; 	   
-	       break;
-	   }
-	}
-        if( 1 != find )
-	    return FTW_STOP;	
+     while( NULL != ( pent = readdir(dir))  )
+     {
+         if(!strcmp(pent->d_name,".") || !strcmp(pent->d_name,".."))
+                 continue;
 
-	ret = pNode->funaddr(fpath,pNode->arg);	
-	if( ret < 0 )
-	    return FTW_STOP;
+         if( pent->d_type != DT_DIR )
+                 continue;
 
-        return FTW_SKIP_SUBTREE;
-    }
+         if( 0 == atoi(pent->d_name) )
+                 continue;
 
-    return 0;
+          pathbuff = (char *)malloc(sizeof(char)*(strlen(PROC_DIR) + strlen(pent->d_name) + 10));
+          if(NULL == pathbuff)
+              continue;
+
+          memset(pathbuff,0,sizeof(char)*(strlen(PROC_DIR) + strlen(pent->d_name) + 10));
+          sprintf(pathbuff,"%s/%s",PROC_DIR,pent->d_name);
+          ret = callback(pathbuff,userarg);
+          free(pathbuff);
+          pathbuff = NULL;
+          if( 0 != ret )
+              break;
+     }
+
+     return RET_SUCCESS;
 }
 
-
-int comm_list_all_procpid(pidcallback callback,void *usrarg)
-{  
-    int ret = 0;
-    PidCallBackList *pNode;
-
-    if(NULL == callback)
-        return -1;
-
-    pNode = (PidCallBackList*)malloc(sizeof(PidCallBackList));
-    if(NULL == pNode)
-	    return -1;
-
-    memset(pNode,0,sizeof(PidCallBackList));
-    
-    pNode->pthid = pthread_self();
-    pNode->funaddr = callback; 
-    pNode->arg = usrarg;
-    list_add(&pNode->list,&g_pidlistcallback);
-    
-    if ( comm_list_proc_pid(NULL,NULL,0,NULL) < 0 )
-    {
-        ret = -1;
-    }
-
-    list_del(&pNode->list);
-    free(pNode); 
-    
-    return ret;
-}
 
 
