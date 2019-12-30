@@ -23,7 +23,7 @@ AM_CONFIG_HEADER(src/config.h)
 AC_SUBST(VERSION)   
 AC_SUBST(LT_VERSION)
 
-AM_INIT_AUTOMAKE([-Wall -Werror foreign])
+AM_INIT_AUTOMAKE
 
 # Checks for programs.
 AC_PROG_CC

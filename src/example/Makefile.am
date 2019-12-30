@@ -1,4 +1,4 @@
-AUTOMAKE_OPTIONS=foreign
+#AUTOMAKE_OPTIONS=foreign
 noinst_PROGRAMS=testfile testnet
 
 testfile_SOURCES=testfile.c 
