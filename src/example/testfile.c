@@ -12,7 +12,7 @@ int callback(const char *fpath,void *userarg)
 
 int main(int argc,char *argv[])
 {
-    if( comm_find_proc_pid(callback,NULL) != RET_SUCCESS )
+    if( com_find_proc_pid(callback,NULL) != RET_SUCCESS )
        printf("list error\n");
 
     return 0;

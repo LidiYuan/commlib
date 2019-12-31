@@ -132,7 +132,7 @@ am__installdirs = "$(DESTDIR)$(libdir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libgencomop4c_la_LIBADD =
 am_libgencomop4c_la_OBJECTS = libgencomop4c_la-commfile.lo \
-	libgencomop4c_la-commnet.lo
+	libgencomop4c_la-commnet.lo libgencomop4c_la-general.lo
 libgencomop4c_la_OBJECTS = $(am_libgencomop4c_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -326,7 +326,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign
 lib_LTLIBRARIES = libgencomop4c.la
-libgencomop4c_la_SOURCES = commfile.c  commnet.c
+libgencomop4c_la_SOURCES = commfile.c  commnet.c  general.c
 libgencomop4c_la_CFLAGS = -I$(top_srcdir)/src/
 libgencomop4c_la_LDFLAGS = -version-info $(LT_VERSION)
 all: all-am
@@ -409,6 +409,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgencomop4c_la-commfile.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgencomop4c_la-commnet.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgencomop4c_la-general.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -444,6 +445,13 @@ libgencomop4c_la-commnet.lo: commnet.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='commnet.c' object='libgencomop4c_la-commnet.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgencomop4c_la_CFLAGS) $(CFLAGS) -c -o libgencomop4c_la-commnet.lo `test -f 'commnet.c' || echo '$(srcdir)/'`commnet.c
+
+libgencomop4c_la-general.lo: general.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgencomop4c_la_CFLAGS) $(CFLAGS) -MT libgencomop4c_la-general.lo -MD -MP -MF $(DEPDIR)/libgencomop4c_la-general.Tpo -c -o libgencomop4c_la-general.lo `test -f 'general.c' || echo '$(srcdir)/'`general.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libgencomop4c_la-general.Tpo $(DEPDIR)/libgencomop4c_la-general.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='general.c' object='libgencomop4c_la-general.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgencomop4c_la_CFLAGS) $(CFLAGS) -c -o libgencomop4c_la-general.lo `test -f 'general.c' || echo '$(srcdir)/'`general.c
 
 mostlyclean-libtool:
 	-rm -f *.lo
