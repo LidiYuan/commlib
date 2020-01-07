@@ -61,4 +61,11 @@ typedef int (*procpid_cb)(const char *name,void *usrarg);
 extern int com_find_proc_pid(procpid_cb callback,void *userarg);
 
 
+
+
+//////////////////////////about os info////////////////////////////
+extern int os_info_uuid(char *buff,unsigned int bufsize);
+extern int os_info_bootid(char *buff,unsigned int bufsize);
+
+
 #endif

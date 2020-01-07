@@ -88,7 +88,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-noinst_PROGRAMS = testfile$(EXEEXT) testnet$(EXEEXT)
+noinst_PROGRAMS = testfile$(EXEEXT) testnet$(EXEEXT) testos$(EXEEXT)
 subdir = src/example
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
@@ -119,6 +119,12 @@ testnet_DEPENDENCIES = $(top_srcdir)/src/gencompo4c/libgencomop4c.la
 testnet_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(testnet_CFLAGS) \
 	$(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+am_testos_OBJECTS = testos-testos.$(OBJEXT)
+testos_OBJECTS = $(am_testos_OBJECTS)
+testos_DEPENDENCIES = $(top_srcdir)/src/gencompo4c/libgencomop4c.la
+testos_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(testos_CFLAGS) $(CFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -153,8 +159,9 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(testfile_SOURCES) $(testnet_SOURCES)
-DIST_SOURCES = $(testfile_SOURCES) $(testnet_SOURCES)
+SOURCES = $(testfile_SOURCES) $(testnet_SOURCES) $(testos_SOURCES)
+DIST_SOURCES = $(testfile_SOURCES) $(testnet_SOURCES) \
+	$(testos_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -307,6 +314,9 @@ testfile_CFLAGS = -I$(top_srcdir)/src
 testnet_SOURCES = testnet.c
 testnet_LDADD = $(top_srcdir)/src/gencompo4c/libgencomop4c.la
 testnet_CFLAGS = -I$(top_srcdir)/src
+testos_SOURCES = testos.c 
+testos_LDADD = $(top_srcdir)/src/gencompo4c/libgencomop4c.la
+testos_CFLAGS = -I$(top_srcdir)/src
 all: all-am
 
 .SUFFIXES:
@@ -358,6 +368,10 @@ testnet$(EXEEXT): $(testnet_OBJECTS) $(testnet_DEPENDENCIES) $(EXTRA_testnet_DEP
 	@rm -f testnet$(EXEEXT)
 	$(AM_V_CCLD)$(testnet_LINK) $(testnet_OBJECTS) $(testnet_LDADD) $(LIBS)
 
+testos$(EXEEXT): $(testos_OBJECTS) $(testos_DEPENDENCIES) $(EXTRA_testos_DEPENDENCIES) 
+	@rm -f testos$(EXEEXT)
+	$(AM_V_CCLD)$(testos_LINK) $(testos_OBJECTS) $(testos_LDADD) $(LIBS)
+
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 
@@ -366,6 +380,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testfile-testfile.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testnet-testnet.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testos-testos.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -415,6 +430,20 @@ testnet-testnet.obj: testnet.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='testnet.c' object='testnet-testnet.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(testnet_CFLAGS) $(CFLAGS) -c -o testnet-testnet.obj `if test -f 'testnet.c'; then $(CYGPATH_W) 'testnet.c'; else $(CYGPATH_W) '$(srcdir)/testnet.c'; fi`
+
+testos-testos.o: testos.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(testos_CFLAGS) $(CFLAGS) -MT testos-testos.o -MD -MP -MF $(DEPDIR)/testos-testos.Tpo -c -o testos-testos.o `test -f 'testos.c' || echo '$(srcdir)/'`testos.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/testos-testos.Tpo $(DEPDIR)/testos-testos.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='testos.c' object='testos-testos.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(testos_CFLAGS) $(CFLAGS) -c -o testos-testos.o `test -f 'testos.c' || echo '$(srcdir)/'`testos.c
+
+testos-testos.obj: testos.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(testos_CFLAGS) $(CFLAGS) -MT testos-testos.obj -MD -MP -MF $(DEPDIR)/testos-testos.Tpo -c -o testos-testos.obj `if test -f 'testos.c'; then $(CYGPATH_W) 'testos.c'; else $(CYGPATH_W) '$(srcdir)/testos.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/testos-testos.Tpo $(DEPDIR)/testos-testos.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='testos.c' object='testos-testos.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(testos_CFLAGS) $(CFLAGS) -c -o testos-testos.obj `if test -f 'testos.c'; then $(CYGPATH_W) 'testos.c'; else $(CYGPATH_W) '$(srcdir)/testos.c'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo
