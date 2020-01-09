@@ -131,7 +131,7 @@ am__uninstall_files_from_dir = { \
 am__installdirs = "$(DESTDIR)$(libdir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libgencomop4c_la_LIBADD =
-am_libgencomop4c_la_OBJECTS = libgencomop4c_la-commfile.lo \
+am_libgencomop4c_la_OBJECTS = libgencomop4c_la-commproc.lo \
 	libgencomop4c_la-commnet.lo libgencomop4c_la-commos.lo \
 	libgencomop4c_la-general.lo
 libgencomop4c_la_OBJECTS = $(am_libgencomop4c_la_OBJECTS)
@@ -327,7 +327,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign
 lib_LTLIBRARIES = libgencomop4c.la
-libgencomop4c_la_SOURCES = commfile.c  commnet.c  commos.c general.c 
+libgencomop4c_la_SOURCES = commproc.c  commnet.c  commos.c general.c 
 libgencomop4c_la_CFLAGS = -I$(top_srcdir)/src/
 libgencomop4c_la_LDFLAGS = -version-info $(LT_VERSION)
 all: all-am
@@ -408,9 +408,9 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgencomop4c_la-commfile.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgencomop4c_la-commnet.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgencomop4c_la-commos.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgencomop4c_la-commproc.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgencomop4c_la-general.Plo@am__quote@
 
 .c.o:
@@ -434,12 +434,12 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LTCOMPILE) -c -o $@ $<
 
-libgencomop4c_la-commfile.lo: commfile.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgencomop4c_la_CFLAGS) $(CFLAGS) -MT libgencomop4c_la-commfile.lo -MD -MP -MF $(DEPDIR)/libgencomop4c_la-commfile.Tpo -c -o libgencomop4c_la-commfile.lo `test -f 'commfile.c' || echo '$(srcdir)/'`commfile.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libgencomop4c_la-commfile.Tpo $(DEPDIR)/libgencomop4c_la-commfile.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='commfile.c' object='libgencomop4c_la-commfile.lo' libtool=yes @AMDEPBACKSLASH@
+libgencomop4c_la-commproc.lo: commproc.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgencomop4c_la_CFLAGS) $(CFLAGS) -MT libgencomop4c_la-commproc.lo -MD -MP -MF $(DEPDIR)/libgencomop4c_la-commproc.Tpo -c -o libgencomop4c_la-commproc.lo `test -f 'commproc.c' || echo '$(srcdir)/'`commproc.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libgencomop4c_la-commproc.Tpo $(DEPDIR)/libgencomop4c_la-commproc.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='commproc.c' object='libgencomop4c_la-commproc.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgencomop4c_la_CFLAGS) $(CFLAGS) -c -o libgencomop4c_la-commfile.lo `test -f 'commfile.c' || echo '$(srcdir)/'`commfile.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgencomop4c_la_CFLAGS) $(CFLAGS) -c -o libgencomop4c_la-commproc.lo `test -f 'commproc.c' || echo '$(srcdir)/'`commproc.c
 
 libgencomop4c_la-commnet.lo: commnet.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgencomop4c_la_CFLAGS) $(CFLAGS) -MT libgencomop4c_la-commnet.lo -MD -MP -MF $(DEPDIR)/libgencomop4c_la-commnet.Tpo -c -o libgencomop4c_la-commnet.lo `test -f 'commnet.c' || echo '$(srcdir)/'`commnet.c
