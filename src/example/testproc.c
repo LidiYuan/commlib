@@ -12,8 +12,24 @@ int callback(const char *fpath,void *userarg)
 
 int main(int argc,char *argv[])
 {
+    int mt;
+
     if( com_find_proc_pid(callback,NULL) != RET_SUCCESS )
        printf("list error\n");
+
+    printf("*****************proc info**************\n");
+    printf("max process number: %ld\n",process_max_number());
+    if(is_kernel_thread(2) )
+    {
+        printf("pid 2  is a kernel thread\n");
+    }
+
+    mt = process_cpu_mtime(2);
+    if( mt >=0 )
+    {
+        printf("pid 2 cpu millsecond time: %d(ms)\n",mt);
+    }
+    
 
     return 0;
 }

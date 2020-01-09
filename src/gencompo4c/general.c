@@ -1,5 +1,3 @@
-#include <sys/types.h>
-#include <dirent.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
@@ -8,41 +6,70 @@
 
 #define PROC_DIR "/proc"
 
+int general_dir_entry(const char *path,struct dir_entry *entry)
+{
+    if(NULL == entry || path == NULL || strlen(path) == 0)
+        return -1;
+  
+    if(entry->dir == NULL)
+    {
+        entry->dir = opendir(path);
+        if(NULL == entry->dir)
+            return -1;
+    }
+
+    do
+    {
+        entry->dent = readdir(entry->dir);
+        if(NULL == entry->dent)
+        {
+            closedir(entry->dir);
+            entry->dir = NULL;
+            return -1;
+        }
+    }while( !strcmp(entry->dent->d_name,".") || !strcmp(entry->dent->d_name,"..") );
+
+
+    return 0;
+}
+
+void general_close_dir(struct dir_entry *entry)
+{
+    if(NULL != entry && NULL != entry->dir)
+    {
+        closedir(entry->dir);
+        entry->dir = NULL;
+    }
+}
+
 int general_find_proc_pid(procpid_cb callback,void *userarg)
 {
-     struct dirent *pent =NULL;
      char *pathbuff = NULL;
      int ret = 0;
+     struct dir_entry ent={0}; //must init
 
-     DIR *dir = opendir(PROC_DIR);
-
-     if(NULL == dir)
-         return RET_FAILED;
-
-     while( NULL != ( pent = readdir(dir))  )
+     while( !general_dir_entry(PROC_DIR,&ent) )
      {
-         if(!strcmp(pent->d_name,".") || !strcmp(pent->d_name,".."))
+         if( ent.dent->d_type != DT_DIR )
                  continue;
 
-         if( pent->d_type != DT_DIR )
+         if( 0 == atoi(ent.dent->d_name) )
                  continue;
 
-         if( 0 == atoi(pent->d_name) )
-                 continue;
-
-          pathbuff = (char *)malloc(sizeof(char)*(strlen(PROC_DIR) + strlen(pent->d_name) + 10));
+          pathbuff = (char *)malloc(sizeof(char)*(strlen(PROC_DIR) + strlen(ent.dent->d_name) + 10));
           if(NULL == pathbuff)
               continue;
 
-          memset(pathbuff,0,sizeof(char)*(strlen(PROC_DIR) + strlen(pent->d_name) + 10));
-          sprintf(pathbuff,"%s/%s",PROC_DIR,pent->d_name);
+          memset(pathbuff,0,sizeof(char)*(strlen(PROC_DIR) + strlen(ent.dent->d_name) + 10));
+          sprintf(pathbuff,"%s/%s",PROC_DIR,ent.dent->d_name);
           ret = callback(pathbuff,userarg);
           free(pathbuff);
           pathbuff = NULL;
           if( 0 != ret )
               break;
      }
-     closedir(dir);
+     general_close_dir(&ent);
+
 
      return RET_SUCCESS;
 }
@@ -87,4 +114,6 @@ int general_get_field(char *tmpbuff,char key,int fieldnum,char **field)
     }
     return 0;
 }
+
+
 

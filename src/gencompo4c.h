@@ -58,10 +58,13 @@ typedef int(*netproc_info_cb)(NetProcInfo *pinfo,void *userarg);
 extern  int com_foreach_net_info(netproc_info_cb callback, unsigned int nettype,void*userarg); /*udp or tcp*/
 
 
-////////////////////////about file///////////////////////////
+////////////////////////about proc///////////////////////////
 typedef int (*procpid_cb)(const char *name,void *usrarg);
 extern int com_find_proc_pid(procpid_cb callback,void *userarg);
 
+extern int process_cpu_mtime(unsigned int pid);
+extern int is_kernel_thread(unsigned int pid);
+extern long process_max_number(void);
 
 
 
