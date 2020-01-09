@@ -86,6 +86,43 @@ static inline int list_empty(const struct list_head *head)
 	return head->next == head;
 }
 
+
+static inline struct list_head *list_pop_front(struct list_head *head)
+{
+    struct list_head *pos;	
+    if( list_empty(head) )
+	    return NULL;
+
+    pos = head->next;
+    list_del(pos);
+    return pos; 
+}
+
+
+static inline struct list_head *list_front(struct list_head *head)
+{
+    struct list_head *pos;	
+    if( list_empty(head) )
+	    return NULL;
+
+    pos = head->next; 
+    return pos; 
+}
+
+static inline int list_size(struct list_head *head)
+{
+    struct list_head *pos,*next;	
+    int sum = 0;
+    
+    list_for_each_safe(pos,next,head)
+    {
+        sum++;
+    }
+
+    return sum;
+}
+
+
 #endif
 
 
