@@ -10,6 +10,7 @@
 
 #define PROC_DIR "/proc"
 
+
 int general_dir_entry(const char *path,struct dir_entry *entry)
 {
     if(NULL == entry || path == NULL || strlen(path) == 0)
@@ -46,7 +47,9 @@ void general_close_dir(struct dir_entry *entry)
     }
 }
 
-int general_find_proc_pid(procpid_cb callback,void *userarg)
+
+
+int general_find_proc_pid(gen_procpid_cb callback,void *userarg)
 {
      char *pathbuff = NULL;
      int ret = 0;
@@ -75,7 +78,7 @@ int general_find_proc_pid(procpid_cb callback,void *userarg)
      general_close_dir(&ent);
 
 
-     return RET_SUCCESS;
+     return 0;
 }
 
 

@@ -14,6 +14,7 @@
 
 @SET_MAKE@
 
+
 VPATH = @srcdir@
 am__is_gnu_make = { \
   if test -z '$(MAKELEVEL)'; then \
@@ -88,7 +89,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-subdir = src/gencompo4c
+subdir = src/mylib4c
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
 	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
@@ -96,7 +97,8 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
 	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
-DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
+DIST_COMMON = $(srcdir)/Makefile.am $(pkginclude_HEADERS) \
+	$(am__DIST_COMMON)
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/src/config.h
 CONFIG_CLEAN_FILES =
@@ -128,21 +130,20 @@ am__uninstall_files_from_dir = { \
     || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
          $(am__cd) "$$dir" && rm -f $$files; }; \
   }
-am__installdirs = "$(DESTDIR)$(libdir)"
+am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgincludedir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
-libgencomop4c_la_LIBADD =
-am_libgencomop4c_la_OBJECTS = libgencomop4c_la-commproc.lo \
-	libgencomop4c_la-commnet.lo libgencomop4c_la-commos.lo \
-	libgencomop4c_la-general.lo
-libgencomop4c_la_OBJECTS = $(am_libgencomop4c_la_OBJECTS)
+libmylib4c_la_LIBADD =
+am_libmylib4c_la_OBJECTS = libmylib4c_la-commproc.lo \
+	libmylib4c_la-commnet.lo libmylib4c_la-commos.lo \
+	libmylib4c_la-general.lo
+libmylib4c_la_OBJECTS = $(am_libmylib4c_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
-libgencomop4c_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
-	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
-	$(libgencomop4c_la_CFLAGS) $(CFLAGS) \
-	$(libgencomop4c_la_LDFLAGS) $(LDFLAGS) -o $@
+libmylib4c_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(libmylib4c_la_CFLAGS) \
+	$(CFLAGS) $(libmylib4c_la_LDFLAGS) $(LDFLAGS) -o $@
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -177,13 +178,14 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(libgencomop4c_la_SOURCES)
-DIST_SOURCES = $(libgencomop4c_la_SOURCES)
+SOURCES = $(libmylib4c_la_SOURCES)
+DIST_SOURCES = $(libmylib4c_la_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
+HEADERS = $(pkginclude_HEADERS)
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 # Read a list of newline-separated strings from the standard input,
 # and print each of them once, without duplicates.  Input order is
@@ -326,10 +328,11 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign
-lib_LTLIBRARIES = libgencomop4c.la
-libgencomop4c_la_SOURCES = commproc.c  commnet.c  commos.c general.c 
-libgencomop4c_la_CFLAGS = -I$(top_srcdir)/src/
-libgencomop4c_la_LDFLAGS = -version-info $(LT_VERSION)
+lib_LTLIBRARIES = libmylib4c.la
+libmylib4c_la_SOURCES = commproc.c  commnet.c  commos.c general.c 
+libmylib4c_la_CFLAGS = -I$(top_srcdir)/src/
+libmylib4c_la_LDFLAGS = -version-info $(LT_VERSION)
+pkginclude_HEADERS = commnet.h commos.h commproc.h basecomm.h
 all: all-am
 
 .SUFFIXES:
@@ -343,9 +346,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign src/gencompo4c/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign src/mylib4c/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign src/gencompo4c/Makefile
+	  $(AUTOMAKE) --foreign src/mylib4c/Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
 	  *config.status*) \
@@ -399,8 +402,8 @@ clean-libLTLIBRARIES:
 	  rm -f $${locs}; \
 	}
 
-libgencomop4c.la: $(libgencomop4c_la_OBJECTS) $(libgencomop4c_la_DEPENDENCIES) $(EXTRA_libgencomop4c_la_DEPENDENCIES) 
-	$(AM_V_CCLD)$(libgencomop4c_la_LINK) -rpath $(libdir) $(libgencomop4c_la_OBJECTS) $(libgencomop4c_la_LIBADD) $(LIBS)
+libmylib4c.la: $(libmylib4c_la_OBJECTS) $(libmylib4c_la_DEPENDENCIES) $(EXTRA_libmylib4c_la_DEPENDENCIES) 
+	$(AM_V_CCLD)$(libmylib4c_la_LINK) -rpath $(libdir) $(libmylib4c_la_OBJECTS) $(libmylib4c_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -408,10 +411,10 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgencomop4c_la-commnet.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgencomop4c_la-commos.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgencomop4c_la-commproc.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgencomop4c_la-general.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmylib4c_la-commnet.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmylib4c_la-commos.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmylib4c_la-commproc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmylib4c_la-general.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -434,39 +437,60 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LTCOMPILE) -c -o $@ $<
 
-libgencomop4c_la-commproc.lo: commproc.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgencomop4c_la_CFLAGS) $(CFLAGS) -MT libgencomop4c_la-commproc.lo -MD -MP -MF $(DEPDIR)/libgencomop4c_la-commproc.Tpo -c -o libgencomop4c_la-commproc.lo `test -f 'commproc.c' || echo '$(srcdir)/'`commproc.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libgencomop4c_la-commproc.Tpo $(DEPDIR)/libgencomop4c_la-commproc.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='commproc.c' object='libgencomop4c_la-commproc.lo' libtool=yes @AMDEPBACKSLASH@
+libmylib4c_la-commproc.lo: commproc.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmylib4c_la_CFLAGS) $(CFLAGS) -MT libmylib4c_la-commproc.lo -MD -MP -MF $(DEPDIR)/libmylib4c_la-commproc.Tpo -c -o libmylib4c_la-commproc.lo `test -f 'commproc.c' || echo '$(srcdir)/'`commproc.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libmylib4c_la-commproc.Tpo $(DEPDIR)/libmylib4c_la-commproc.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='commproc.c' object='libmylib4c_la-commproc.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgencomop4c_la_CFLAGS) $(CFLAGS) -c -o libgencomop4c_la-commproc.lo `test -f 'commproc.c' || echo '$(srcdir)/'`commproc.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmylib4c_la_CFLAGS) $(CFLAGS) -c -o libmylib4c_la-commproc.lo `test -f 'commproc.c' || echo '$(srcdir)/'`commproc.c
 
-libgencomop4c_la-commnet.lo: commnet.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgencomop4c_la_CFLAGS) $(CFLAGS) -MT libgencomop4c_la-commnet.lo -MD -MP -MF $(DEPDIR)/libgencomop4c_la-commnet.Tpo -c -o libgencomop4c_la-commnet.lo `test -f 'commnet.c' || echo '$(srcdir)/'`commnet.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libgencomop4c_la-commnet.Tpo $(DEPDIR)/libgencomop4c_la-commnet.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='commnet.c' object='libgencomop4c_la-commnet.lo' libtool=yes @AMDEPBACKSLASH@
+libmylib4c_la-commnet.lo: commnet.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmylib4c_la_CFLAGS) $(CFLAGS) -MT libmylib4c_la-commnet.lo -MD -MP -MF $(DEPDIR)/libmylib4c_la-commnet.Tpo -c -o libmylib4c_la-commnet.lo `test -f 'commnet.c' || echo '$(srcdir)/'`commnet.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libmylib4c_la-commnet.Tpo $(DEPDIR)/libmylib4c_la-commnet.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='commnet.c' object='libmylib4c_la-commnet.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgencomop4c_la_CFLAGS) $(CFLAGS) -c -o libgencomop4c_la-commnet.lo `test -f 'commnet.c' || echo '$(srcdir)/'`commnet.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmylib4c_la_CFLAGS) $(CFLAGS) -c -o libmylib4c_la-commnet.lo `test -f 'commnet.c' || echo '$(srcdir)/'`commnet.c
 
-libgencomop4c_la-commos.lo: commos.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgencomop4c_la_CFLAGS) $(CFLAGS) -MT libgencomop4c_la-commos.lo -MD -MP -MF $(DEPDIR)/libgencomop4c_la-commos.Tpo -c -o libgencomop4c_la-commos.lo `test -f 'commos.c' || echo '$(srcdir)/'`commos.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libgencomop4c_la-commos.Tpo $(DEPDIR)/libgencomop4c_la-commos.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='commos.c' object='libgencomop4c_la-commos.lo' libtool=yes @AMDEPBACKSLASH@
+libmylib4c_la-commos.lo: commos.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmylib4c_la_CFLAGS) $(CFLAGS) -MT libmylib4c_la-commos.lo -MD -MP -MF $(DEPDIR)/libmylib4c_la-commos.Tpo -c -o libmylib4c_la-commos.lo `test -f 'commos.c' || echo '$(srcdir)/'`commos.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libmylib4c_la-commos.Tpo $(DEPDIR)/libmylib4c_la-commos.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='commos.c' object='libmylib4c_la-commos.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgencomop4c_la_CFLAGS) $(CFLAGS) -c -o libgencomop4c_la-commos.lo `test -f 'commos.c' || echo '$(srcdir)/'`commos.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmylib4c_la_CFLAGS) $(CFLAGS) -c -o libmylib4c_la-commos.lo `test -f 'commos.c' || echo '$(srcdir)/'`commos.c
 
-libgencomop4c_la-general.lo: general.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgencomop4c_la_CFLAGS) $(CFLAGS) -MT libgencomop4c_la-general.lo -MD -MP -MF $(DEPDIR)/libgencomop4c_la-general.Tpo -c -o libgencomop4c_la-general.lo `test -f 'general.c' || echo '$(srcdir)/'`general.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libgencomop4c_la-general.Tpo $(DEPDIR)/libgencomop4c_la-general.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='general.c' object='libgencomop4c_la-general.lo' libtool=yes @AMDEPBACKSLASH@
+libmylib4c_la-general.lo: general.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmylib4c_la_CFLAGS) $(CFLAGS) -MT libmylib4c_la-general.lo -MD -MP -MF $(DEPDIR)/libmylib4c_la-general.Tpo -c -o libmylib4c_la-general.lo `test -f 'general.c' || echo '$(srcdir)/'`general.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libmylib4c_la-general.Tpo $(DEPDIR)/libmylib4c_la-general.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='general.c' object='libmylib4c_la-general.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgencomop4c_la_CFLAGS) $(CFLAGS) -c -o libgencomop4c_la-general.lo `test -f 'general.c' || echo '$(srcdir)/'`general.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmylib4c_la_CFLAGS) $(CFLAGS) -c -o libmylib4c_la-general.lo `test -f 'general.c' || echo '$(srcdir)/'`general.c
 
 mostlyclean-libtool:
 	-rm -f *.lo
 
 clean-libtool:
 	-rm -rf .libs _libs
+install-pkgincludeHEADERS: $(pkginclude_HEADERS)
+	@$(NORMAL_INSTALL)
+	@list='$(pkginclude_HEADERS)'; test -n "$(pkgincludedir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(pkgincludedir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(pkgincludedir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_HEADER) $$files '$(DESTDIR)$(pkgincludedir)'"; \
+	  $(INSTALL_HEADER) $$files "$(DESTDIR)$(pkgincludedir)" || exit $$?; \
+	done
+
+uninstall-pkgincludeHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(pkginclude_HEADERS)'; test -n "$(pkgincludedir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(pkgincludedir)'; $(am__uninstall_files_from_dir)
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
@@ -552,9 +576,9 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LTLIBRARIES)
+all-am: Makefile $(LTLIBRARIES) $(HEADERS)
 installdirs:
-	for dir in "$(DESTDIR)$(libdir)"; do \
+	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgincludedir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -610,7 +634,7 @@ info: info-am
 
 info-am:
 
-install-data-am:
+install-data-am: install-pkgincludeHEADERS
 
 install-dvi: install-dvi-am
 
@@ -656,7 +680,7 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-libLTLIBRARIES
+uninstall-am: uninstall-libLTLIBRARIES uninstall-pkgincludeHEADERS
 
 .MAKE: install-am install-strip
 
@@ -668,11 +692,13 @@ uninstall-am: uninstall-libLTLIBRARIES
 	install-data-am install-dvi install-dvi-am install-exec \
 	install-exec-am install-html install-html-am install-info \
 	install-info-am install-libLTLIBRARIES install-man install-pdf \
-	install-pdf-am install-ps install-ps-am install-strip \
-	installcheck installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	tags tags-am uninstall uninstall-am uninstall-libLTLIBRARIES
+	install-pdf-am install-pkgincludeHEADERS install-ps \
+	install-ps-am install-strip installcheck installcheck-am \
+	installdirs maintainer-clean maintainer-clean-generic \
+	mostlyclean mostlyclean-compile mostlyclean-generic \
+	mostlyclean-libtool pdf pdf-am ps ps-am tags tags-am uninstall \
+	uninstall-am uninstall-libLTLIBRARIES \
+	uninstall-pkgincludeHEADERS
 
 .PRECIOUS: Makefile
 

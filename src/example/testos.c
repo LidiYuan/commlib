@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "gencompo4c.h"
+#include <mylib4c.h>
 
 
 static int running_user(struct login_info *uinfo,void *userarg)

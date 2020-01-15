@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "gencompo4c.h"
+#include <mylib4c.h>
 
 
 int callback(const char *fpath,void *userarg)
@@ -15,7 +15,7 @@ int main(int argc,char *argv[])
     int mt;
     char buff[512]={0};
 
-    if( com_find_proc_pid(callback,NULL) != RET_SUCCESS )
+    if( com_find_proc_pid(callback,NULL) != 0 )
        printf("list error\n");
 
     printf("*****************proc info**************\n");

@@ -10,7 +10,9 @@
 #include <unistd.h>
 
 #include "list.h"
+#include "commos.h"
 #include "general.h"
+
 
 struct login_list{
     short   type;

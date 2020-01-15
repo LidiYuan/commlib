@@ -1,7 +1,7 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ([2.69])
-AC_INIT([gencompo4c],[1.0.1],[yldfree@163.com])
+AC_INIT([mylib4c],[1.0.1],[yldfree@163.com])
 
 #包的版本号
 VERSION=1.0.1
@@ -44,6 +44,6 @@ AC_CHECK_FUNCS([memset])
 
 AC_CONFIG_FILES([Makefile 
 		 src/Makefile 
-		 src/gencompo4c/Makefile 
+		 src/mylib4c/Makefile 
 		 src/example/Makefile ])
 AC_OUTPUT

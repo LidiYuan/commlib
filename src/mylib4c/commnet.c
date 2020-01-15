@@ -10,6 +10,7 @@
 #include <dirent.h>
 #include <arpa/inet.h>
 #include "general.h"
+#include "commnet.h"
 
 #define NETTCP_FILE  "/proc/net/tcp"
 #define NETUDP_FILE  "/proc/net/udp"
@@ -230,7 +231,7 @@ int com_foreach_net_info(netproc_info_cb callback, unsigned int nettype,void*use
    fclose(fp);
 }
 
-int com_foreach_local_ipv4(COMM_SIP_CALLBACK singleip,void *arg)
+int com_foreach_local_ipv4(netipv4_cb singleip,void *arg)
 {
     int ret = 0;
     char ipbuff[128]={0};
