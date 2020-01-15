@@ -23,6 +23,7 @@ int main(int argc,char *argv[])
 {
     time_t t;	
     char buff[256]={0};
+    int ret;
 
     if(os_info_uuid(buff,256) == 0)
     {
@@ -59,6 +60,21 @@ int main(int argc,char *argv[])
         printf("get logout tty failed\n");
     }
 
+    if( (ret =os_info_version()) >= 0)
+    {
+        switch(ret)
+        {
+        case OS_VERSION_UBUNTU18:
+            printf("system version is ubuntu18\n");
+            break;
+        case OS_VERSION_CENTOS7:
+            printf("system version is centos7\n");
+            break;
+        default:
+            printf("Current system version is not adapter\n");
+            break;
+        }
+    }
 
 
     return 0;

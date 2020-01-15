@@ -92,7 +92,44 @@ int process_cpu_mtime(unsigned int pid)
 }
 
 
+int process_cmdline(unsigned int pid,char *linebuff,unsigned int size)
+{
+    FILE *fp = NULL;
+    char buff[1024]={0};
+    int i;
 
+    if(NULL == linebuff || size == 0)
+        return -1;
+
+    snprintf(buff,1024,"/proc/%u/cmdline",pid);
+    fp = fopen(buff,"r");
+    if(NULL == fp)
+        return -1;
+
+    memset(linebuff,'\n',size);
+    if( NULL == fgets(linebuff,size,fp) )
+    {
+        fclose(fp);
+        return -1;
+    }
+
+    for(i = 0; i< size; i++)
+    {
+        if(linebuff[i] == '\n')
+        {
+            linebuff[i] = '\0';
+            break;
+        }
+        if(linebuff[i] == '\0')
+        {
+            linebuff[i] = ' ';
+        }
+    }
+
+    fclose(fp);
+
+    return 0;
+}
 
 
 

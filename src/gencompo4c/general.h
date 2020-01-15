@@ -15,4 +15,7 @@ struct dir_entry{
 extern int general_dir_entry(const char *path,struct dir_entry *entry);
 extern void general_close_dir(struct dir_entry *entry);
 
+
+int general_os_version(void);
+
 #endif

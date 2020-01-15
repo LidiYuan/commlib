@@ -9,6 +9,13 @@
 #define MAX_PATH_LEN 1024
 
 
+enum{
+    OS_VERSION_UBUNTU18 = 0,
+    OS_VERSION_CENTOS7,
+    OS_VERSION_MAX_NUM
+};
+
+
 /////////////////////about net/////////////////////////
 #define COMM_STOP_IPGET -1
 #define COMM_CONTINUE_IPGET 0
@@ -16,6 +23,7 @@ typedef int (*COMM_SIP_CALLBACK)(void *arg,const char *ipbuff);
 
 extern int com_foreach_local_ipv4(COMM_SIP_CALLBACK singleip,void *arg);
 extern int com_is_local_ipv4(const char *ipv4addr);
+
 
 #define MAX_IPV4_STRLEN 16
 #define NETTYPE_TCP  0
@@ -65,7 +73,7 @@ extern int com_find_proc_pid(procpid_cb callback,void *userarg);
 extern int process_cpu_mtime(unsigned int pid);
 extern int is_kernel_thread(unsigned int pid);
 extern long process_max_number(void);
-
+extern int process_cmdline(unsigned int pid,char *linebuff,unsigned int size);
 
 
 //////////////////////////about os info////////////////////////////
@@ -92,8 +100,6 @@ extern time_t os_info_last_shutdow_time(void);
 
 extern int os_info_running_tty(login_info_cb callback,void *userarg);
 extern int os_info_logout_tty(login_info_cb callback, void *userarg);
-
-
-
+extern int os_info_version(void);  /*return OS_VERSION_xx */
 
 #endif

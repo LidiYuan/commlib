@@ -13,6 +13,7 @@ int callback(const char *fpath,void *userarg)
 int main(int argc,char *argv[])
 {
     int mt;
+    char buff[512]={0};
 
     if( com_find_proc_pid(callback,NULL) != RET_SUCCESS )
        printf("list error\n");
@@ -29,6 +30,9 @@ int main(int argc,char *argv[])
     {
         printf("pid 2 cpu millsecond time: %d(ms)\n",mt);
     }
+
+    if(0 == process_cmdline(1,buff,512) )
+        printf("pid 1 cmdline: %s\n",buff);
     
 
     return 0;

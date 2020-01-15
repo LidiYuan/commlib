@@ -5,6 +5,10 @@
 #include <unistd.h>
 #include <utmp.h>
 #include <time.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+
 #include "list.h"
 #include "general.h"
 
@@ -247,8 +251,11 @@ int os_info_logout_tty(login_info_cb callback, void *userarg)
 
     return 0;
 }
- 
 
+int os_info_version(void)
+{
+    return general_os_version();
+}
 
 
 
