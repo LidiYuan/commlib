@@ -203,9 +203,7 @@ int general_os_version(void)
     if(!strcmp("ubuntu18",osversion))
         return OS_VERSION_UBUNTU18;
     if(!strcmp("centos7",osversion))
-	if(!strcmp("ubuntu18",osversion))
-        return OS_VERSION_UBUNTU18;
-    if(!strcmp("centos7",osversion))
+        return  OS_VERSION_CENTOS7;
 
     return -1;
 
