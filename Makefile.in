@@ -163,7 +163,7 @@ am__DIST_COMMON = $(srcdir)/Makefile.in $(top_srcdir)/m4/compile \
 	$(top_srcdir)/m4/config.guess $(top_srcdir)/m4/config.sub \
 	$(top_srcdir)/m4/install-sh $(top_srcdir)/m4/ltmain.sh \
 	$(top_srcdir)/m4/missing m4/compile m4/config.guess \
-	m4/config.sub m4/depcomp m4/install-sh m4/ltmain.sh m4/missing
+	m4/config.sub m4/install-sh m4/ltmain.sh m4/missing
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -244,9 +244,6 @@ LIBS = @LIBS@
 LIBTOOL = @LIBTOOL@
 LIPO = @LIPO@
 LN_S = @LN_S@
-LOG4C_CFLAGS = @LOG4C_CFLAGS@
-LOG4C_CONFIG = @LOG4C_CONFIG@
-LOG4C_LIBS = @LOG4C_LIBS@
 LTLIBOBJS = @LTLIBOBJS@
 LT_SYS_LIBRARY_PATH = @LT_SYS_LIBRARY_PATH@
 LT_VERSION = @LT_VERSION@
