@@ -5,81 +5,150 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
-
 #include "general.h"
-
 #define PROC_DIR "/proc"
 
+struct general_inode_entry{
+    int  bufsize;
+    char *fullpath;
+    char *dirpath;
+    DIR *dir;
+    struct  dirent *ent;
+};
 
-int general_dir_entry(const char *path,struct dir_entry *entry)
+
+static int general_foreach_inode_entry(const char *dirpath, struct file_item *entry,int type)
 {
-    if(NULL == entry || path == NULL || strlen(path) == 0)
-        return -1;
-  
-    if(entry->dir == NULL)
-    {
-        entry->dir = opendir(path);
-        if(NULL == entry->dir)
-            return -1;
-    }
+    struct general_inode_entry* pNode = NULL;
 
-    do
+    if(NULL == entry || NULL == dirpath )
+        return -1;
+
+    switch(entry->flag)
     {
-        entry->dent = readdir(entry->dir);
-        if(NULL == entry->dent)
+    case LOOP_TYPE_START:
+
+        pNode = (struct general_inode_entry *)malloc(sizeof(struct general_inode_entry));
+        if(NULL == pNode)
+            return -1;
+
+        memset(pNode,0,sizeof(struct general_inode_entry));
+        pNode->dirpath = (char*)malloc(strlen(dirpath) +10);
+        if(NULL == pNode->dirpath)
         {
-            closedir(entry->dir);
-            entry->dir = NULL;
+            free(pNode);
             return -1;
         }
-    }while( !strcmp(entry->dent->d_name,".") || !strcmp(entry->dent->d_name,"..") );
+        memset(pNode->dirpath,0,strlen(dirpath)+10);
+        memcpy(pNode->dirpath,dirpath,strlen(dirpath));
 
+        pNode->dir = opendir(dirpath);
+        if(NULL == pNode->dir)
+        {
+            free(pNode->dirpath);
+            free(pNode);
+            return -1;
+        }
+        entry->flag = LOOP_TYPE_CON;
+        entry->this = (void*)pNode;
 
-    return 0;
-}
-
-void general_close_dir(struct dir_entry *entry)
-{
-    if(NULL != entry && NULL != entry->dir)
-    {
-        closedir(entry->dir);
-        entry->dir = NULL;
+        break;
+    case LOOP_TYPE_CON:
+        pNode = (struct general_inode_entry *)(entry->this);
+        if(NULL != pNode->fullpath)
+        {
+            free(pNode->fullpath);
+            entry->fullpath = pNode->fullpath = NULL;
+            pNode->bufsize = 0;
+        }
+        break;
+    case LOOP_TYPE_STOP:
+        pNode = (struct general_inode_entry *)(entry->this);
+        goto stopread;
+    default:
+        return -1;
     }
+
+    do{
+
+        pNode->ent = readdir(pNode->dir);
+        if(NULL == pNode->ent)
+            goto stopread;
+
+    }while( !strcmp(pNode->ent->d_name,".") || !strcmp(pNode->ent->d_name,"..") || (pNode->ent->d_type != type));
+
+
+    pNode->bufsize = strlen(pNode->dirpath)+strlen(pNode->ent->d_name)+10;
+    pNode->fullpath = (char*)malloc(pNode->bufsize);
+    if(NULL == pNode->fullpath)
+            goto stopread;
+
+    memset(pNode->fullpath,0,pNode->bufsize);
+
+    if(pNode->dirpath[strlen(pNode->dirpath)-1] == '/')
+        snprintf(pNode->fullpath,pNode->bufsize,"%s%s",pNode->dirpath,pNode->ent->d_name);
+    else
+        snprintf(pNode->fullpath,pNode->bufsize,"%s/%s",pNode->dirpath,pNode->ent->d_name);
+    
+    entry->fullpath = pNode->fullpath;
+    return 0;
+
+stopread:
+
+    if(NULL != pNode->fullpath)
+    {
+        free(pNode->fullpath);
+        pNode->fullpath = NULL;
+    }
+
+    free(pNode->dirpath);
+    closedir(pNode->dir);
+    free(pNode);
+    entry->fullpath = NULL;
+    entry->this = NULL;
+    entry->flag = 0;
+
+    return -1;
 }
 
+
+int general_foreach_dir_entry(const char *path,struct file_item *entry)
+{
+    return general_foreach_inode_entry(path,entry,DT_DIR);
+}
+
+int general_foreach_regfile_entry(const char *path,struct file_item *entry)
+{
+    return general_foreach_inode_entry(path,entry,DT_REG);
+}
 
 
 int general_find_proc_pid(gen_procpid_cb callback,void *userarg)
 {
-     char *pathbuff = NULL;
      int ret = 0;
-     struct dir_entry ent={0}; //must init
+     char *tmpstr = NULL;  
+     struct file_item ent={0};/*must init*/ 
 
-     while( !general_dir_entry(PROC_DIR,&ent) )
+     while( !general_foreach_dir_entry(PROC_DIR, &ent) )
      {
-         if( ent.dent->d_type != DT_DIR )
-                 continue;
+         if( NULL == (tmpstr = strrchr(ent.fullpath,'/')) )
+            continue;
 
-         if( 0 == atoi(ent.dent->d_name) )
-                 continue;
+         if( 0 == atoi(tmpstr+1) )  
+            continue;
 
-          pathbuff = (char *)malloc(sizeof(char)*(strlen(PROC_DIR) + strlen(ent.dent->d_name) + 10));
-          if(NULL == pathbuff)
-              continue;
-
-          memset(pathbuff,0,sizeof(char)*(strlen(PROC_DIR) + strlen(ent.dent->d_name) + 10));
-          sprintf(pathbuff,"%s/%s",PROC_DIR,ent.dent->d_name);
-          ret = callback(pathbuff,userarg);
-          free(pathbuff);
-          pathbuff = NULL;
+          ret = callback(ent.fullpath,userarg);
+          
           if( 0 != ret )
-              break;
-     }
-     general_close_dir(&ent);
-
+          {
+              ent.flag = LOOP_TYPE_STOP; /*stop loop*/     
+              continue;
+          }
+      }
 
      return 0;
 }
+
 
 
 int general_get_field(char *tmpbuff,char key,int fieldnum,char **field)

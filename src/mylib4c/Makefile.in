@@ -135,7 +135,7 @@ LTLIBRARIES = $(lib_LTLIBRARIES)
 libmylib4c_la_LIBADD =
 am_libmylib4c_la_OBJECTS = libmylib4c_la-commproc.lo \
 	libmylib4c_la-commnet.lo libmylib4c_la-commos.lo \
-	libmylib4c_la-general.lo
+	libmylib4c_la-commfile.lo libmylib4c_la-general.lo
 libmylib4c_la_OBJECTS = $(am_libmylib4c_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -329,10 +329,10 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign
 lib_LTLIBRARIES = libmylib4c.la
-libmylib4c_la_SOURCES = commproc.c  commnet.c  commos.c general.c 
+libmylib4c_la_SOURCES = commproc.c  commnet.c  commos.c commfile.c  general.c 
 libmylib4c_la_CFLAGS = -I$(top_srcdir)/src/
 libmylib4c_la_LDFLAGS = -version-info $(LT_VERSION)
-pkginclude_HEADERS = commnet.h commos.h commproc.h basecomm.h
+pkginclude_HEADERS = commnet.h commos.h commproc.h commfile.h basecomm.h
 all: all-am
 
 .SUFFIXES:
@@ -411,6 +411,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmylib4c_la-commfile.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmylib4c_la-commnet.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmylib4c_la-commos.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmylib4c_la-commproc.Plo@am__quote@
@@ -457,6 +458,13 @@ libmylib4c_la-commos.lo: commos.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='commos.c' object='libmylib4c_la-commos.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmylib4c_la_CFLAGS) $(CFLAGS) -c -o libmylib4c_la-commos.lo `test -f 'commos.c' || echo '$(srcdir)/'`commos.c
+
+libmylib4c_la-commfile.lo: commfile.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmylib4c_la_CFLAGS) $(CFLAGS) -MT libmylib4c_la-commfile.lo -MD -MP -MF $(DEPDIR)/libmylib4c_la-commfile.Tpo -c -o libmylib4c_la-commfile.lo `test -f 'commfile.c' || echo '$(srcdir)/'`commfile.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libmylib4c_la-commfile.Tpo $(DEPDIR)/libmylib4c_la-commfile.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='commfile.c' object='libmylib4c_la-commfile.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmylib4c_la_CFLAGS) $(CFLAGS) -c -o libmylib4c_la-commfile.lo `test -f 'commfile.c' || echo '$(srcdir)/'`commfile.c
 
 libmylib4c_la-general.lo: general.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libmylib4c_la_CFLAGS) $(CFLAGS) -MT libmylib4c_la-general.lo -MD -MP -MF $(DEPDIR)/libmylib4c_la-general.Tpo -c -o libmylib4c_la-general.lo `test -f 'general.c' || echo '$(srcdir)/'`general.c

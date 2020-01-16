@@ -88,7 +88,8 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-noinst_PROGRAMS = testproc$(EXEEXT) testnet$(EXEEXT) testos$(EXEEXT)
+noinst_PROGRAMS = testproc$(EXEEXT) testnet$(EXEEXT) testos$(EXEEXT) \
+	testfile$(EXEEXT)
 subdir = src/example
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
@@ -103,13 +104,16 @@ CONFIG_HEADER = $(top_builddir)/src/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 PROGRAMS = $(noinst_PROGRAMS)
-am_testnet_OBJECTS = testnet.$(OBJEXT)
-testnet_OBJECTS = $(am_testnet_OBJECTS)
-testnet_DEPENDENCIES = $(top_srcdir)/src/mylib4c/libmylib4c.la
+am_testfile_OBJECTS = testfile.$(OBJEXT)
+testfile_OBJECTS = $(am_testfile_OBJECTS)
+testfile_DEPENDENCIES = $(top_srcdir)/src/mylib4c/libmylib4c.la
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
+am_testnet_OBJECTS = testnet.$(OBJEXT)
+testnet_OBJECTS = $(am_testnet_OBJECTS)
+testnet_DEPENDENCIES = $(top_srcdir)/src/mylib4c/libmylib4c.la
 am_testos_OBJECTS = testos.$(OBJEXT)
 testos_OBJECTS = $(am_testos_OBJECTS)
 testos_DEPENDENCIES = $(top_srcdir)/src/mylib4c/libmylib4c.la
@@ -150,9 +154,10 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(testnet_SOURCES) $(testos_SOURCES) $(testproc_SOURCES)
-DIST_SOURCES = $(testnet_SOURCES) $(testos_SOURCES) \
+SOURCES = $(testfile_SOURCES) $(testnet_SOURCES) $(testos_SOURCES) \
 	$(testproc_SOURCES)
+DIST_SOURCES = $(testfile_SOURCES) $(testnet_SOURCES) \
+	$(testos_SOURCES) $(testproc_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -311,6 +316,9 @@ testnet_LDADD = $(top_srcdir)/src/mylib4c/libmylib4c.la
 #testnet_CFLAGS=-I$(top_srcdir)/src
 testos_SOURCES = testos.c 
 testos_LDADD = $(top_srcdir)/src/mylib4c/libmylib4c.la
+#testos_CFLAGS=-I$(top_srcdir)/src
+testfile_SOURCES = testfile.c 
+testfile_LDADD = $(top_srcdir)/src/mylib4c/libmylib4c.la
 all: all-am
 
 .SUFFIXES:
@@ -354,6 +362,10 @@ clean-noinstPROGRAMS:
 	echo " rm -f" $$list; \
 	rm -f $$list
 
+testfile$(EXEEXT): $(testfile_OBJECTS) $(testfile_DEPENDENCIES) $(EXTRA_testfile_DEPENDENCIES) 
+	@rm -f testfile$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(testfile_OBJECTS) $(testfile_LDADD) $(LIBS)
+
 testnet$(EXEEXT): $(testnet_OBJECTS) $(testnet_DEPENDENCIES) $(EXTRA_testnet_DEPENDENCIES) 
 	@rm -f testnet$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(testnet_OBJECTS) $(testnet_LDADD) $(LIBS)
@@ -372,6 +384,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testfile.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testnet.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testos.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testproc.Po@am__quote@

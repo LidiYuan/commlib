@@ -64,12 +64,13 @@ int process_cpu_mtime(unsigned int pid)
     char threadpath[512]={0};
     long long nt = 0;
     int summt = 0;
-    struct dir_entry ent={0}; //must init
+    struct file_item ent={0}; //must init
 
     snprintf(threadpath,512,"/proc/%u/task/",pid);
-    while( !general_dir_entry(threadpath,&ent) )
+
+    while( !general_foreach_dir_entry(threadpath,&ent) )
     {
-        snprintf(path,512,"/proc/%u/task/%d/schedstat",pid,atoi(ent.dent->d_name));
+        snprintf(path,512,"%s/schedstat",ent.fullpath);
 
         fp = fopen(path,"r");
         if( NULL == fp)
@@ -87,7 +88,6 @@ int process_cpu_mtime(unsigned int pid)
         memset(buff,0,256);
         memset(path,0,512);
     }
-    general_close_dir(&ent);
 
     return summt;
 }
