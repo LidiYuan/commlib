@@ -8,6 +8,8 @@ enum{
 };
 
 #define MAX_PATH_LEN 1024
+#define MAX_MACHINE_ID_LEN 34
+
 
 
 enum{
@@ -23,6 +25,8 @@ struct file_item {
     char *fullpath;
     int flag;
 };
+
+
 
 
 #endif

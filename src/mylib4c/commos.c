@@ -260,5 +260,23 @@ int os_info_version(void)
 }
 
 
+int os_info_machine_id(char*buff, unsigned int size)
+{
+    FILE *fp = NULL;
+
+    if(NULL == (fp = fopen("/etc/machine-id","r")))
+        return -1;
+
+    if(NULL == fgets(buff,size,fp) )
+    {
+        fclose(fp);
+        return -1;
+    }
+    if(buff[strlen(buff) -1] == '\0')
+        buff[strlen(buff)-1] = '\0';        
+
+    fclose(fp);
+    return 0;
+}
 
 

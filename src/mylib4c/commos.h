@@ -20,6 +20,7 @@ typedef int (*login_info_cb)(struct login_info *uinfo,void *userarg);
 
 extern int os_info_uuid(char *buff,unsigned int bufsize);
 extern int os_info_bootid(char *buff,unsigned int bufsize);
+extern int os_info_machine_id(char*buff, unsigned int size); /*size you can set MAX_MACHINE_ID_LEN*/
 
 
 extern time_t os_info_boot_time(void);
@@ -28,6 +29,8 @@ extern time_t os_info_last_shutdow_time(void);
 extern int os_info_running_tty(login_info_cb callback,void *userarg);
 extern int os_info_logout_tty(login_info_cb callback, void *userarg);
 extern int os_info_version(void);  /*return OS_VERSION_xx  basecomm.h*/
+
+
 
 
 #endif

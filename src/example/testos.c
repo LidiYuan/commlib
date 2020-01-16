@@ -2,18 +2,18 @@
 #include <stdlib.h>
 #include <string.h>
 #include <mylib4c.h>
-
+#include <time.h>
 
 static int running_user(struct login_info *uinfo,void *userarg)
 {
-    printf("User: %s, host: %s, tty: %s, logintime:%ld\n",uinfo->username,uinfo->hostname,uinfo->tty,uinfo->logintime);
+    printf("User:%s, host:%s, tty:%s, logintime:%ld(%s)\n",uinfo->username,uinfo->hostname,uinfo->tty,uinfo->logintime,ctime(&uinfo->logintime));
 
-    return 0;//return -1,stop  loop
+    return 0; //return -1,stop  loop
 }
 
 static int logout_user(struct login_info *uinfo,void *userarg)
 {
-    printf("User: %s, host: %s, tty: %s, logintime:%ld, logouttime: %ld\n",uinfo->username,uinfo->hostname,uinfo->tty,uinfo->logintime,uinfo->logouttime);
+    printf("User:%s, host:%s, tty:%s, logintime:%ld(%s), logouttime: %ld(%s)\n",uinfo->username,uinfo->hostname,uinfo->tty,uinfo->logintime,ctime(&uinfo->logintime),uinfo->logouttime,ctime(&uinfo->logouttime) );
     return 0;
 }
 
@@ -29,11 +29,29 @@ int main(int argc,char *argv[])
     {
         printf("uuid:%s\n",buff);
     }
+    else
+    {
+        printf("get uuid is error\n");
+    }
     
     memset(buff,0,256);
     if(os_info_bootid(buff,256) == 0)
     {
         printf("bootid:%s\n",buff);
+    }
+    else
+    {
+        printf("get bootid is error\n");
+    }
+
+    memset(buff,0,256);
+    if( os_info_machine_id(buff,MAX_MACHINE_ID_LEN) ==0 )
+    {
+        printf("Machine id is:%s\n",buff);
+    }
+    else
+    {
+        printf("get machine id is error\n");
     }
 
     printf("*****************************\n");
@@ -55,10 +73,12 @@ int main(int argc,char *argv[])
     }
     printf("\n");
 
+    printf("logout tty:\n");
     if( os_info_logout_tty(logout_user,NULL) !=0)
     {
         printf("get logout tty failed\n");
     }
+    printf("**************************************\n");
 
     if( (ret =os_info_version()) >= 0)
     {
@@ -75,6 +95,7 @@ int main(int argc,char *argv[])
             break;
         }
     }
+
 
 
     return 0;
