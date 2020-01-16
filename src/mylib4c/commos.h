@@ -9,6 +9,7 @@
 
 struct login_info
 {
+    uid_t pid;
     char username[MAX_USER_NAME];
     time_t logintime;
     char tty[MAX_TTY_LEN];

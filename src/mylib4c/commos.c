@@ -196,6 +196,7 @@ int os_info_running_tty(login_info_cb callback,void *userarg)
         snprintf(ent.tty,MAX_TTY_LEN,"%s",record.ut_line);
         ent.logintime = record.ut_tv.tv_sec+(record.ut_tv.tv_usec/1000000);
         ent.logouttime = (time_t)-1;
+        ent.pid = record.ut_pid;
 
         if( callback(&ent,userarg) < 0)
                 break;
