@@ -1,2 +1,2 @@
-SUBDIRS=mylib4c  example
-include_HEADERS=mylib4c.h
+SUBDIRS=myfcp  example
+include_HEADERS=myfcp.h

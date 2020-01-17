@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <mylib4c.h>
+#include <myfcp.h>
 
 
 int callback(const char *fpath,void *userarg)

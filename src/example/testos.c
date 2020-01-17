@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <mylib4c.h>
 #include <time.h>
+#include <myfcp.h>
 
 static int running_user(struct login_info *uinfo,void *userarg)
 {
