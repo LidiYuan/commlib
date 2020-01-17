@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "general.h"
 #include "commfile.h"
-
+#include "genlog.h"
 
 int comm_foreach_dir_entry(const char *path,struct file_item *entry)
 {

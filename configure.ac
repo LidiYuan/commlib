@@ -38,6 +38,10 @@ AC_CHECK_HEADERS([arpa/inet.h netinet/in.h stddef.h stdlib.h string.h])
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_INLINE
 
+AC_ARG_ENABLE(stderr,AS_HELP_STRING(--enable-stderr, enable log output in stderr ))
+AM_CONDITIONAL(LOG_STDERR, [test "$enable_stderr" = "yes"]) #在.am中可以if 来判断LOG_STDERR是否为true
+
+
 # Checks for library functions.
 AC_FUNC_MALLOC
 AC_CHECK_FUNCS([memset])

@@ -1,10 +1,13 @@
 #!/bin/bash
 
-rm -rf m4
-
 autoreconf -vif
 
-./configure
+if [ "$1" = "stderr" ]
+then
+   ./configure  --enable-stderr
+else
+   ./configure
+fi
 
 make
 

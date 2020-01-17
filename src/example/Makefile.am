@@ -1,6 +1,7 @@
 #AUTOMAKE_OPTIONS=foreign
 #INCLUDES= -I$(top_srcdir)/src  #old method
-AM_CPPFLAGS=-I$(top_srcdir)/src 
+
+AM_CPPFLAGS=-I$(top_srcdir)/src  
 noinst_PROGRAMS=testproc testnet testos testfile
 
 testproc_SOURCES=testproc.c 

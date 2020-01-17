@@ -1,6 +1,8 @@
 #ifndef _BASECOMM_H_
 #define _BASECOMM_H_
 
+#include <syslog.h>
+
 enum{
     OS_VERSION_UBUNTU18 = 0,
     OS_VERSION_CENTOS7,
@@ -27,6 +29,7 @@ struct file_item {
 };
 
 
-
+typedef void(*genlog_cb)(const char *msg);
+extern void fcp_set_log_cb(genlog_cb errcb, genlog_cb debugcb);
 
 #endif
