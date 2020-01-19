@@ -1,5 +1,5 @@
-#ifndef _BASECOMM_H_
-#define _BASECOMM_H_
+#ifndef _FCP_BASE_H_
+#define _FCP_BASE_H_
 
 #include <syslog.h>
 

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "basecomm.h"
+
+#include "fcp_base.h"
 #include "genlog.h"
 
 

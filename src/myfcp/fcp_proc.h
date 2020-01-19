@@ -1,5 +1,5 @@
-#ifndef _COMMPROC_H_
-#define _COMMPROC_H_
+#ifndef _FCP_PROC_H_
+#define _FCP_PROC_H_
 
 
 typedef int (*procpid_cb)(const char *name,void *usrarg);

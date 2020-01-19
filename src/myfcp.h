@@ -2,11 +2,11 @@
 #define __MYFCP_H_
 
 
-#include <myfcp/basecomm.h>
-#include <myfcp/commnet.h>
-#include <myfcp/commos.h>
-#include <myfcp/commproc.h>
-#include <myfcp/commfile.h>
+#include <myfcp/fcp_base.h>
+#include <myfcp/fcp_net.h>
+#include <myfcp/fcp_os.h>
+#include <myfcp/fcp_proc.h>
+#include <myfcp/fcp_file.h>
 
 
 #endif

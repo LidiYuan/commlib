@@ -4,7 +4,7 @@
 #include <sys/types.h>
 #include <dirent.h>
 
-#include "basecomm.h"
+#include "fcp_base.h"
 
 typedef int (*gen_procpid_cb)(const char *name,void *usrarg);
 

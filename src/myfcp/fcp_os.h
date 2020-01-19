@@ -1,7 +1,7 @@
-#ifndef _COMMOS_H_
-#define _COMMOS_H_
+#ifndef _FCP_OS_H_
+#define _FCP_OS_H_
 
-#include "basecomm.h"
+#include "fcp_base.h"
 
 #define MAX_USER_NAME 128
 #define MAX_TTY_LEN  128
@@ -29,7 +29,7 @@ extern time_t os_info_last_shutdow_time(void);
 
 extern int os_info_running_tty(login_info_cb callback,void *userarg);
 extern int os_info_logout_tty(login_info_cb callback, void *userarg);
-extern int os_info_version(void);  /*return OS_VERSION_xx  basecomm.h*/
+extern int os_info_version(void);  /*return OS_VERSION_xx  fcp_base.h*/
 
 
 

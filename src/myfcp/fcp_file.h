@@ -1,7 +1,7 @@
-#ifndef _COMM_FILE_H_
-#define _COMM_FILE_H_
+#ifndef _FCP_FILE_H_
+#define _FCP_FILE_H_
 #include <string.h>
-#include "basecomm.h"
+#include "fcp_base.h"
 
 extern int comm_foreach_dir_entry(const char *path,struct file_item *entry);
 extern int comm_foreach_regfile_entry(const char *path,struct file_item *entry);

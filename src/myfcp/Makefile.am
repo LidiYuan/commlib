@@ -1,7 +1,7 @@
 AUTOMAKE_OPTIONS=foreign
 lib_LTLIBRARIES=libmyfcp.la
 
-libmyfcp_la_SOURCES=commproc.c  commnet.c  commos.c commfile.c  basecomm.c  general.c  genlog.c
+libmyfcp_la_SOURCES=fcp_proc.c  fcp_net.c  fcp_os.c fcp_file.c  fcp_base.c  general.c  genlog.c
 libmyfcp_la_CPPFLAGS=-I$(top_srcdir)/src/
 
 if LOG_STDERR
@@ -10,5 +10,5 @@ endif
 
 libmyfcp_la_LDFLAGS = -version-info $(LT_VERSION)
 
-pkginclude_HEADERS=commnet.h commos.h commproc.h commfile.h basecomm.h
+pkginclude_HEADERS=fcp_net.h fcp_os.h fcp_proc.h fcp_file.h fcp_base.h
 

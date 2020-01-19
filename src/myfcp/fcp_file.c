@@ -8,7 +8,7 @@
 #include <fcntl.h>
 
 #include "general.h"
-#include "commfile.h"
+#include "fcp_file.h"
 #include "genlog.h"
 
 

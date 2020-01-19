@@ -10,7 +10,7 @@
 #include <dirent.h>
 #include <arpa/inet.h>
 #include "general.h"
-#include "commnet.h"
+#include "fcp_net.h"
 
 #define NETTCP_FILE  "/proc/net/tcp"
 #define NETUDP_FILE  "/proc/net/udp"

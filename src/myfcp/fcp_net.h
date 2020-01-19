@@ -1,7 +1,7 @@
-#ifndef _COMMNET_H_
-#define _COMMNET_H_
+#ifndef _FCP_NET_H_
+#define _FCP_NET_H_
 
-#include "basecomm.h"
+#include "fcp_base.h"
 
 #define COMM_STOP_IPGET -1
 #define COMM_CONTINUE_IPGET 0

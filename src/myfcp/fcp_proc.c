@@ -8,7 +8,7 @@
 #include <unistd.h>
 
 #include "general.h"
-#include "commproc.h"
+#include "fcp_proc.h"
 
 int com_find_proc_pid(procpid_cb callback,void *userarg)
 {
