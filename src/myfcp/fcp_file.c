@@ -70,8 +70,6 @@ int file_is_sock(const char *path)
     return judge_file_type(path,S_IFSOCK);
 }
 
-
-
 int file_execute_type(const char *path)
 {
     int fd;

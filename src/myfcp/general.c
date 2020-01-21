@@ -150,7 +150,6 @@ int general_find_proc_pid(gen_procpid_cb callback,void *userarg)
 }
 
 
-
 int general_get_field(char *tmpbuff,char key,int fieldnum,char **field)
 {
     char *pstr = tmpbuff;
@@ -190,6 +189,7 @@ int general_get_field(char *tmpbuff,char key,int fieldnum,char **field)
     }
     return 0;
 }
+
 
 static int general_os_version_con(const char *filepath,unsigned int fieldnum,char *verbuff,int bufsize)
 {

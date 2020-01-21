@@ -39,6 +39,7 @@ static void genlog_error_output(const char *msg)
 
 static void genlog_debug_output(const char *msg)
 {
+
 #ifndef LOG_STDERR                
     openlog("myfcp",LOG_CONS | LOG_PID, LOG_USER);
     syslog(LOG_DEBUG,"%s",msg);

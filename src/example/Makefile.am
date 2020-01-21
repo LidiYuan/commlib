@@ -1,22 +1,23 @@
 #AUTOMAKE_OPTIONS=foreign
 #INCLUDES= -I$(top_srcdir)/src  #old method
 
+
 AM_CPPFLAGS=-I$(top_srcdir)/src  
-noinst_PROGRAMS=testproc testnet testos testfile
+noinst_PROGRAMS=testproc testnet testos testfile teststring
+MYFCP_PATH=$(top_srcdir)/src/myfcp/libmyfcp.la
 
 testproc_SOURCES=testproc.c 
-testproc_LDADD=$(top_srcdir)/src/myfcp/libmyfcp.la
+testproc_LDADD=$(MYFCP_PATH)
 #testproc_CFLAGS=-I$(top_srcdir)/src
 
 testnet_SOURCES=testnet.c
-testnet_LDADD=$(top_srcdir)/src/myfcp/libmyfcp.la
-#testnet_CFLAGS=-I$(top_srcdir)/src
-
+testnet_LDADD=$(MYFCP_PATH)
 
 testos_SOURCES=testos.c 
-testos_LDADD=$(top_srcdir)/src/myfcp/libmyfcp.la
-#testos_CFLAGS=-I$(top_srcdir)/src
+testos_LDADD=$(MYFCP_PATH)
 
 testfile_SOURCES=testfile.c 
-testfile_LDADD=$(top_srcdir)/src/myfcp/libmyfcp.la
-#testos_CFLAGS=-I$(top_srcdir)/src
+testfile_LDADD=$(MYFCP_PATH)
+
+teststring_SOURCES=teststring.c 
+teststring_LDADD=$(MYFCP_PATH)

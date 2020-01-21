@@ -7,6 +7,6 @@
 #include <myfcp/fcp_os.h>
 #include <myfcp/fcp_proc.h>
 #include <myfcp/fcp_file.h>
-
+#include <myfcp/fcp_string.h>
 
 #endif
