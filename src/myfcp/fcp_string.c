@@ -19,3 +19,9 @@ char *fcp_strim(char *str)
 {
     return gen_strim(str);
 }
+
+
+int fcp_foreach_field(const char *buff,char keys,struct fcp_one_item *entry)
+{
+    return gen_foreach_field(buff,keys,entry);
+}

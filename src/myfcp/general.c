@@ -17,7 +17,7 @@ struct general_inode_entry{
 };
 
 
-static int general_foreach_inode_entry(const char *dirpath, struct file_item *entry,int type)
+static int general_foreach_inode_entry(const char *dirpath, struct fcp_one_item *entry,int type)
 {
     struct general_inode_entry* pNode = NULL;
 
@@ -58,7 +58,7 @@ static int general_foreach_inode_entry(const char *dirpath, struct file_item *en
         if(NULL != pNode->fullpath)
         {
             free(pNode->fullpath);
-            entry->fullpath = pNode->fullpath = NULL;
+            entry->data = pNode->fullpath= NULL;
             pNode->bufsize = 0;
         }
         break;
@@ -90,7 +90,7 @@ static int general_foreach_inode_entry(const char *dirpath, struct file_item *en
     else
         snprintf(pNode->fullpath,pNode->bufsize,"%s/%s",pNode->dirpath,pNode->ent->d_name);
     
-    entry->fullpath = pNode->fullpath;
+    entry->data = pNode->fullpath;
     return 0;
 
 stopread:
@@ -104,7 +104,7 @@ stopread:
     free(pNode->dirpath);
     closedir(pNode->dir);
     free(pNode);
-    entry->fullpath = NULL;
+    entry->data = NULL;
     entry->this = NULL;
     entry->flag = 0;
 
@@ -112,12 +112,12 @@ stopread:
 }
 
 
-int general_foreach_dir_entry(const char *path,struct file_item *entry)
+int general_foreach_dir_entry(const char *path,struct fcp_one_item *entry)
 {
     return general_foreach_inode_entry(path,entry,DT_DIR);
 }
 
-int general_foreach_regfile_entry(const char *path,struct file_item *entry)
+int general_foreach_regfile_entry(const char *path,struct fcp_one_item *entry)
 {
     return general_foreach_inode_entry(path,entry,DT_REG);
 }
@@ -127,17 +127,17 @@ int general_find_proc_pid(gen_procpid_cb callback,void *userarg)
 {
      int ret = 0;
      char *tmpstr = NULL;  
-     struct file_item ent={0};/*must init*/ 
+     struct fcp_one_item ent={0};/*must init*/ 
 
      while( !general_foreach_dir_entry(PROC_DIR, &ent) )
      {
-         if( NULL == (tmpstr = strrchr(ent.fullpath,'/')) )
+         if( NULL == (tmpstr = strrchr(ent.data,'/')) )
             continue;
 
          if( 0 == atoi(tmpstr+1) )  
             continue;
 
-          ret = callback(ent.fullpath,userarg);
+          ret = callback(ent.data,userarg);
           
           if( 0 != ret )
           {

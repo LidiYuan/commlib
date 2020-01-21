@@ -22,10 +22,11 @@ enum{
 };
 
 
-struct file_item {
+struct fcp_one_item
+{
     void *this;
-    char *fullpath;
-    int flag;
+    char *data;
+    unsigned int flag;
 };
 
 

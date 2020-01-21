@@ -12,8 +12,8 @@ extern int general_find_proc_pid(gen_procpid_cb callback,void *userarg);
 extern int general_get_field(char *tmpbuff,char key,int fieldnum,char **field);
 
 
-extern int general_foreach_dir_entry(const char *path,    struct file_item *entry);
-extern int general_foreach_regfile_entry(const char *path,struct file_item *entry);
+extern int general_foreach_dir_entry(const char *path,    struct fcp_one_item *entry);
+extern int general_foreach_regfile_entry(const char *path,struct fcp_one_item *entry);
 
 
 extern int general_os_version(void);

@@ -6,12 +6,12 @@
 
 int main(int argc,char *argv[])
 {
-    struct file_item ent={0};
+    struct fcp_one_item ent={0};
     int type; 
 
     foreach_dir_entry("/proc", &ent)
     {
-        printf("%s\n",ent.fullpath);
+        printf("%s\n",ent.data);
         
         /*
             若想提前结束循环  可以将ent.flag设置成LOOP_TYPE_STOP 然后在调用foreach_dir_entry("/proc", &ent) 如下:

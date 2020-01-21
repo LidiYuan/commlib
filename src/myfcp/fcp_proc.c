@@ -66,13 +66,13 @@ int process_cpu_mtime(unsigned int pid)
     char threadpath[512]={0};
     long long nt = 0;
     int summt = 0;
-    struct file_item ent={0}; //must init
+    struct fcp_one_item ent={0}; //must init
 
     snprintf(threadpath,512,"/proc/%u/task/",pid);
 
     while( !general_foreach_dir_entry(threadpath,&ent) )
     {
-        snprintf(path,512,"%s/schedstat",ent.fullpath);
+        snprintf(path,512,"%s/schedstat",ent.data);
 
         fp = fopen(path,"r");
         if( NULL == fp)
