@@ -14,7 +14,7 @@
 
 #define NETTCP_FILE  "/proc/net/tcp"
 #define NETUDP_FILE  "/proc/net/udp"
-
+#define PROCARPPATH  "/proc/net/arp"
 
 enum{
    NET_FIELD_BUCKET,
@@ -87,7 +87,7 @@ static int deal_proc_pid_info(const char *name,void *userarg)
     {
         if( (pstr = strrchr(name,'/')) )
 	{
-	     printf("********* %s",pstr);	
+	     //printf("********* %s",pstr);	
 	     pstr++;
 	     pinfo->pid = atoi(pstr);
 	}	
@@ -312,10 +312,85 @@ int com_is_local_ipv4(const char *ipv4addr)
 }
 
 
+static int fcp_foreach_comm_arp(struct fcp_one_item *entry,int arpflag)
+{
+    FILE *fp = NULL;
+    char buff[1024]={0};
+    char strflag[20]={0};
+    char strtype[20]={0};
+    char strmask[16]={0};
+    int flag;
+
+    if(NULL == entry)
+    {
+        return -1;
+    }
+
+    switch(entry->flag)
+    {
+    case LOOP_TYPE_START:
+        fp = fopen(PROCARPPATH,"r");
+        if(NULL == fp)
+        {
+            printf("Open %s error\n",PROCARPPATH);
+            return -1;
+        }
+        entry->this = (void*)fp;
+        entry->flag = LOOP_TYPE_CON;
+        if(NULL == fgets(buff,1024,fp))
+            goto done;
+
+        break;
+    case LOOP_TYPE_CON:
+        fp = (FILE *)entry->this;
+        if(NULL == fp)
+            goto done;
+        break;
+    case LOOP_TYPE_STOP:
+    default:
+        fp = (FILE *)entry->this;
+        goto done;
+    }
+next:
+    memset(buff,0,1024);
+    if( NULL == fgets(buff,1024,fp) )
+        goto done;
+
+    memset(entry->arp_ipv4,0,sizeof(entry->arp_ipv4));
+    memset(entry->arp_hwaddr,0,sizeof(entry->arp_hwaddr));
+    memset(entry->arp_devname,0,sizeof(entry->arp_devname));
+    sscanf(buff,"%s%s%s%s%s%s",entry->arp_ipv4,strtype,strflag,entry->arp_hwaddr,strmask,entry->arp_devname);
+    flag = strtol(strflag,NULL,16);
+
+    if( !(flag & arpflag))
+        goto next;
+
+    entry->arp_hwtype = strtol(strtype,NULL,16);
+    entry->arp_flag = flag;
+
+    return 0;
+
+done:
+    if(NULL != fp)
+        fclose(fp);
+
+    return -1;
+}
 
 
+int fcp_foreach_permit_arp(struct fcp_one_item *entry)
+{
+    return fcp_foreach_comm_arp(entry,0x04);
+}
 
+int fcp_foreach_complete_arp(struct fcp_one_item *entry)
+{
+    return fcp_foreach_comm_arp(entry,0x02);
+}
 
-
+int fcp_foreach_publish_arp(struct fcp_one_item *entry)
+{
+    return fcp_foreach_comm_arp(entry,0x08);
+}
 
 

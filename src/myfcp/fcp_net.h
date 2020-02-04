@@ -55,4 +55,22 @@ extern int com_is_local_ipv4(const char *ipv4addr);
 extern int com_foreach_net_info(netproc_info_cb callback, unsigned int nettype,void*userarg); /*udp or tcp*/
 
 
+
+extern int fcp_foreach_permit_arp(struct fcp_one_item *entry);
+extern int fcp_foreach_complete_arp(struct fcp_one_item *entry);
+extern int fcp_foreach_publish_arp(struct fcp_one_item *entry);
+
+#define foreach_permit_arp( pentry ) \
+	    memset(pentry,0,sizeof(struct fcp_one_item)); \
+            while( !fcp_foreach_permit_arp(pentry) )
+
+#define foreach_complete_arp( pentry ) \
+	    memset(pentry,0,sizeof(struct fcp_one_item)); \
+            while( !fcp_foreach_complete_arp(pentry) )
+
+#define foreach_publish_arp( pentry ) \
+	    memset(pentry,0,sizeof(struct fcp_one_item)); \
+            while( !fcp_foreach_publish_arp(pentry) )
+
+
 #endif

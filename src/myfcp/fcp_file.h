@@ -6,6 +6,7 @@
 extern int comm_foreach_dir_entry(const char *path,struct fcp_one_item *entry);
 extern int comm_foreach_regfile_entry(const char *path,struct fcp_one_item *entry);
 
+
 /*entry is struct file_item{} ptr*/
 #define foreach_dir_entry(dirpath, entry)   \
         memset(entry,0,sizeof(struct fcp_one_item)); \
