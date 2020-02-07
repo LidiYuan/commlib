@@ -11,10 +11,12 @@
 #include <arpa/inet.h>
 #include "general.h"
 #include "fcp_net.h"
+#include "genlog.h"
 
-#define NETTCP_FILE  "/proc/net/tcp"
-#define NETUDP_FILE  "/proc/net/udp"
-#define PROCARPPATH  "/proc/net/arp"
+#define NETTCP_FILE   "/proc/net/tcp"
+#define NETUDP_FILE   "/proc/net/udp"
+#define PROCARPPATH   "/proc/net/arp"
+#define PING_DEN_PATH "/proc/sys/net/ipv4/icmp_echo_ignore_all"
 
 enum{
    NET_FIELD_BUCKET,
@@ -391,6 +393,67 @@ int fcp_foreach_complete_arp(struct fcp_one_item *entry)
 int fcp_foreach_publish_arp(struct fcp_one_item *entry)
 {
     return fcp_foreach_comm_arp(entry,0x08);
+}
+
+
+static int fcp_set_pingv4_state(int flag)
+{
+   FILE *fp;
+   int ret = 0;
+   char buff[10]={0};
+
+   fp = fopen(PING_DEN_PATH,"w");
+   if(NULL == fp)
+   {
+       print_err("Open file [%s] error\n",PING_DEN_PATH);
+       return -1;
+   }
+
+   sprintf(buff,"%d",flag);
+   if( fwrite(buff,1,1,fp) != 1 )
+   {
+       print_err("Write file[%s] error\n",PING_DEN_PATH);
+       ret = -1;
+   }
+
+   fclose(fp);
+
+   return ret;
+}
+
+
+int fcp_forbid_pingv4(void)
+{
+    return fcp_set_pingv4_state(1);
+}
+
+int fcp_allow_pingv4(void)
+{
+    return fcp_set_pingv4_state(0);
+}
+
+int fcp_is_allow_pingv4(void)
+{
+   FILE *fp;
+   int ret = 0;
+   char buff[10]={0};
+
+   fp = fopen(PING_DEN_PATH,"r");
+   if(NULL == fp)
+   {
+       print_err("Open file [%s] error\n",PING_DEN_PATH);
+       return -1;
+   }
+
+   if(fread(buff,1,10,fp) < 1 )
+   {
+       fclose(fp);
+       return -1;
+   }
+   ret = atoi(buff);
+
+   fclose(fp);
+   return !(ret);
 }
 
 

@@ -73,4 +73,9 @@ extern int fcp_foreach_publish_arp(struct fcp_one_item *entry);
             while( !fcp_foreach_publish_arp(pentry) )
 
 
+extern int fcp_allow_pingv4(void);
+extern int fcp_forbid_pingv4(void);   
+extern int fcp_is_allow_pingv4(void); /*return -1:error; 1:allow; 0:forbid*/
+
+
 #endif

@@ -74,6 +74,24 @@ int main(int argc,char *argv[])
         printf("ipaddr[%s] -- hwaddr[%s] -- devname[%s] -- hwtype[%d] -- arpflag[%d]\n",entry.arp_ipv4,entry.arp_hwaddr,entry.arp_devname,entry.arp_hwtype,entry.arp_flag);
 
     }
+
+
+    printf("\n**************************set pingv4 state****************\n");
+    if( fcp_forbid_pingv4() < 0)
+    {
+       printf("Set pingv4 state error\n");
+    }
+    if( fcp_is_allow_pingv4() == 0 )
+           printf("forbid pingv4\n");
+
+    if(fcp_allow_pingv4() < 0) 
+    {
+        printf("Set pingv4 state error\n");
+    }
+    if( fcp_is_allow_pingv4() > 0 )
+           printf("allow pingv4\n");
+
+
     
     return 0;
 }
