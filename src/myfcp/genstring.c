@@ -2,7 +2,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <string.h>
+
 #include "genstring.h"
+#include "genmd5.h"
 
 struct gen_field_value
 {
@@ -227,6 +234,73 @@ char *gen_base64_decode(const char *code)
 
     return res;
 }
+
+
+
+int gen_string_md5(unsigned char *str, unsigned int str_len, char *md5_str)
+{
+        int i;
+        unsigned char md5_value[MD5_SIZE];
+        struct md5_ctx md5;
+
+        md5_init(&md5);
+
+        md5_update(&md5,str, str_len);
+
+        md5_final(&md5, md5_value);
+
+        for(i = 0; i < MD5_SIZE; i++)
+        {
+                snprintf(md5_str + i*2, 2+1, "%02x", md5_value[i]);
+        }
+
+        return 0;
+}
+
+
+int gen_file_md5(const char *file_path, char *md5_str)
+{
+    int i;
+    int fd;
+    int ret;
+    unsigned char data[256];
+    unsigned char md5_value[MD5_SIZE];
+    struct md5_ctx md5;
+
+    fd = open(file_path, O_RDONLY);
+    if ( fd<=0 )
+    {
+        return -1;
+    }
+    md5_init(&md5);
+
+    while (1)
+    {
+        ret = read(fd, data, 256);
+        if (-1 == ret)
+        {
+            close(fd);
+            return -1;
+        }
+
+        md5_update(&md5, data, ret);
+
+        if (0 == ret || ret < 256)
+        {
+            break;
+        }
+    }
+    close(fd);
+
+    md5_final(&md5,md5_value);
+    for (i = 0; i < MD5_SIZE; i++)
+    {
+        snprintf(md5_str + i * 2, 2 + 1, "%02x", md5_value[i]);
+    }
+
+    return 0;
+}
+
 
 
 

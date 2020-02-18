@@ -22,5 +22,8 @@ extern int gen_foreach_field(const char *buff,char keys,struct fcp_one_item *ent
 extern char *gen_base64_decode(const char *code);
 extern char *gen_base64_encode(const char *code);
 
+extern int gen_string_md5(unsigned char *str, unsigned int str_len, char *md5_str);
+extern int gen_file_md5(const char *file_path, char *md5_str);
+
 
 #endif

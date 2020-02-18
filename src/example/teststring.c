@@ -10,6 +10,7 @@ int main(int argc,char *argv[])
     char buff[100]={"    dasdsa  "};
     char *tmpstr1;
     char *tmpstr2;
+    char md5sum[256]={0}; 
 
     printf("#%s#\n\n",fcp_strim(buff));
 
@@ -36,6 +37,16 @@ int main(int argc,char *argv[])
 	
 	free(tmpstr1);
     }
+
+    if(0 == fcp_string_md5("hello",strlen("hello"),md5sum))
+    {
+        printf("string md5 [hello]=>%s\n",md5sum);
+    }
+    if(0 == fcp_file_md5("/etc/passwd",md5sum))
+    {
+        printf("file md5 [/etc/passwd]=>%s\n",md5sum);
+    }
+
 
 
     return 0;
