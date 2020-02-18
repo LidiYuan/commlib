@@ -25,3 +25,17 @@ int fcp_foreach_field(const char *buff,char keys,struct fcp_one_item *entry)
 {
     return gen_foreach_field(buff,keys,entry);
 }
+
+
+
+char *fcp_base64_decode(const char *str)
+{
+    return gen_base64_decode(str);
+}
+
+char *fcp_base64_encode(const char *str)
+{
+    return gen_base64_encode(str);
+}
+
+

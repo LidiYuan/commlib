@@ -192,6 +192,8 @@ static int parse_net_field(char **field,NetProcInfo *pinfo)
      
 }
 
+
+
 int com_foreach_net_info(netproc_info_cb callback, unsigned int nettype,void*userarg) /*udp or tcp*/
 {
    FILE *fp = NULL; 

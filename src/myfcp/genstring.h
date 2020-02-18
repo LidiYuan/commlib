@@ -18,4 +18,9 @@ extern int gen_foreach_field(const char *buff,char keys,struct fcp_one_item *ent
         while( !gen_foreach_field((linebuff), (keys), (entry)) )
 
 
+/* need user to free result*/
+extern char *gen_base64_decode(const char *code);
+extern char *gen_base64_encode(const char *code);
+
+
 #endif

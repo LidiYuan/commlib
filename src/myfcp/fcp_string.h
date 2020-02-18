@@ -17,5 +17,11 @@ extern int fcp_foreach_field(const char *buff,char keys,struct fcp_one_item *ent
         memset(entry,0,sizeof(struct fcp_one_item)); \
         while( !fcp_foreach_field((linebuff), (keys), (entry)) )
 
+/*need user to free result*/
+extern char *fcp_base64_encode(const char *str);
+
+/*need user to free result*/
+extern char *fcp_base64_decode(const char *code);
+
 
 #endif
