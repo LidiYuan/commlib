@@ -30,8 +30,6 @@ extern time_t os_info_last_shutdow_time(void);
 extern int os_info_running_tty(login_info_cb callback,void *userarg);
 extern int os_info_logout_tty(login_info_cb callback, void *userarg);
 extern int os_info_version(void);  /*return OS_VERSION_xx  fcp_base.h*/
-
-
-
+extern int os_current_user(char *name, unsigned int buflen);
 
 #endif

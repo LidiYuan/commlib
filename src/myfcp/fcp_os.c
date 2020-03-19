@@ -255,6 +255,8 @@ int os_info_logout_tty(login_info_cb callback, void *userarg)
     return 0;
 }
 
+
+
 int os_info_version(void)
 {
     return general_os_version();
@@ -264,6 +266,9 @@ int os_info_version(void)
 int os_info_machine_id(char*buff, unsigned int size)
 {
     FILE *fp = NULL;
+
+    if(NULL == buff || size <= 0)
+	   return -1;
 
     if(NULL == (fp = fopen("/etc/machine-id","r")))
         return -1;
@@ -278,6 +283,50 @@ int os_info_machine_id(char*buff, unsigned int size)
 
     fclose(fp);
     return 0;
+}
+
+
+int os_current_user(char *name, unsigned int buflen)
+{
+    
+    struct passwd pwd={0};
+    struct passwd *result = NULL;
+    char *buf = NULL;
+    size_t bufsize;
+    int ret = 0;
+    uid_t uid;
+
+    if(NULL == name || buflen <=0 )
+        return -1;
+    
+    uid = getuid();
+    bufsize = sysconf(_SC_GETPW_R_SIZE_MAX);
+    if (bufsize == -1)
+    {
+        bufsize = 16384;
+    }
+
+    buf = malloc(bufsize);
+    if (buf == NULL)
+    {
+        ret = -1;
+        goto finish;
+    }
+
+    ret = getpwuid_r(uid, &pwd, buf, bufsize, &result);
+    if (NULL == result)
+    {
+        ret =  -1;
+        goto finish;
+    }
+
+    snprintf(name,buflen,"%s",pwd.pw_name);
+
+finish:
+    if(NULL != buf)
+        free(buf);
+
+    return ret;
 }
 
 

@@ -110,6 +110,17 @@ int main(int argc,char *argv[])
     }
     printf("\n***************************output info  end *****************************************\n\n");
 
+    printf("**************************************current login user*********************\n");
+    memset(buff,0,256);
+    if(0 != os_current_user(buff,256) )
+    {
+        printf("get current login user is error\n");
+    }
+    else
+    {
+        printf("login user: %s\n",buff);
+    } 
+    printf("**************************************current login user end*********************\n");
 
 
     return 0;
