@@ -24,6 +24,7 @@ struct task_proc_stat{
     int tty_nr_major;
     int tty_nr_minor;
     int tpgid;
+    int flags;  // task->flgas PF_KTHREAD
 };
 
 
@@ -31,7 +32,7 @@ typedef int (*procpid_cb)(const char *name,void *usrarg);
 
 extern int com_find_proc_pid(procpid_cb callback,void *userarg);
 extern int process_cpu_mtime(unsigned int pid);
-extern int is_kernel_thread(unsigned int pid);
+extern int taskutil_kernel_task(unsigned int pid);
 extern long process_max_number(void);
 extern int process_cmdline(unsigned int pid,char *linebuff,unsigned int size);
 extern int taskutil_task_proc_stat(unsigned int pid, struct task_proc_stat *pstat);

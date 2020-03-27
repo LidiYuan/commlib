@@ -34,9 +34,13 @@ int main(int argc,char *argv[])
 
     printf("*****************proc info**************\n");
     printf("max process number: %ld\n",process_max_number());
-    if(is_kernel_thread(2) )
+    if(taskutil_kernel_task(pid) )
     {
-        printf("pid 2  is a kernel thread\n");
+        printf("pid %d  is a kernel thread\n",pid);
+    }
+    else
+    {
+        printf("pid %d  is not a kernel thread\n",pid); 
     }
 
     mt = process_cpu_mtime(2);
@@ -86,6 +90,7 @@ int main(int argc,char *argv[])
 	printf("session= %u\n",state.session);
 	printf("ttynr major= %d minor=%d \n",state.tty_nr_major,state.tty_nr_minor);
 	printf("tpgid= %d\n",state.tpgid);
+	printf("flags= 0x%x\n",state.flags);
     }
     printf("**********************proc stat****stop**************************\n");
 

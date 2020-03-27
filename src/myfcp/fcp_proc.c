@@ -48,7 +48,7 @@ int taskutil_task_proc_stat(unsigned int pid, struct task_proc_stat *pstat)
     char path[256]={0};
     FILE *fp;
     char databuff[2048]  ={0};
-    char *field[8] = {0};
+    char *field[9] = {0};
     int tty_nr = 0;
 
     if( NULL == pstat)
@@ -72,7 +72,7 @@ int taskutil_task_proc_stat(unsigned int pid, struct task_proc_stat *pstat)
 	return -1;
     }
 
-    if( -1 == general_get_field(databuff,' ',8,field))
+    if( -1 == general_get_field(databuff,' ',9,field))
     {
         fclose(fp);
 	return -1;
@@ -125,27 +125,26 @@ int taskutil_task_proc_stat(unsigned int pid, struct task_proc_stat *pstat)
         pstat->tpgid = atoi(field[7]);     
     }
 
+    if(NULL != field[8]) //task->flags
+    {
+        pstat->flags = atoi(field[8]);
+    }
+
     fclose(fp);
     return 0;
 }
 
 
-int is_kernel_thread(unsigned int pid)
+int taskutil_kernel_task(unsigned int pid)
 {
-    char buff[1024]={0};
-    struct stat st;
-
-    snprintf(buff,1024,"/proc/%u/",pid);
-    if( stat(buff,&st) != 0)
+    struct task_proc_stat state={0};  
+ 
+    if( 0 != taskutil_task_proc_stat(pid, &state))
     {
         return 0;
     }
-
-    snprintf(buff,1024,"/proc/%u/exe",pid);
-    if( 0 != stat(buff,&st) )
-    {
+    if(state.flags & 0x00200000)  //PF_KTHREAD
         return 1;
-    }
 
     return 0;
 }
