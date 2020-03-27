@@ -19,7 +19,7 @@ enum{
 
 
 
-enum{
+enum {
     LOOP_TYPE_START,
     LOOP_TYPE_CON,
     LOOP_TYPE_STOP,
@@ -29,8 +29,7 @@ enum{
 struct fcp_one_item{
     void *this;
     char *data;
-    unsigned int flag;
-
+    unsigned int flag;  //LOOP_TYPE_XXX
     union {
         char *data;
         struct{

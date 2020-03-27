@@ -119,7 +119,8 @@ int gen_foreach_field(const char *buff,char keys,struct fcp_one_item *entry)
     entry->data = (char *)malloc(end - node->ptr+10);
     if(NULL == entry->data)
         goto done;
-	 memset(entry->data,0, (end - node->ptr)+10);
+
+    memset(entry->data,0, (end - node->ptr)+10);
     memcpy(entry->data,node->ptr,(end - node->ptr));
     node->ptr = end;
 
