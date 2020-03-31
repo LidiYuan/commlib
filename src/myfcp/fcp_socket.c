@@ -124,3 +124,14 @@ done:
 
 
 
+int netutil_socket_unix_pair(int pair[2])
+{
+
+    if( 0 != socketpair(AF_UNIX,SOCK_STREAM,0,pair) )
+        return -1;
+
+    return 0;
+}
+
+
+
