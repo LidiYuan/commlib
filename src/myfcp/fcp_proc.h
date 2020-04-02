@@ -36,5 +36,6 @@ extern int taskutil_kernel_task(unsigned int pid);
 extern long process_max_number(void);
 extern int process_cmdline(unsigned int pid,char *linebuff,unsigned int size);
 extern int taskutil_task_proc_stat(unsigned int pid, struct task_proc_stat *pstat);
+extern void taskutil_task_to_daemon(int nochdir,int nofileclose,int nostdclose,int nochildign);
 
 #endif

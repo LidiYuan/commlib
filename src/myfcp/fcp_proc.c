@@ -7,10 +7,12 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <sys/sysmacros.h>
+#include <sys/time.h>
+#include <sys/resource.h>
+#include <signal.h>
 
 #include "general.h"
 #include "fcp_proc.h"
-
 
 
 int com_find_proc_pid(procpid_cb callback,void *userarg)
@@ -226,7 +228,79 @@ int process_cmdline(unsigned int pid,char *linebuff,unsigned int size)
 }
 
 
+void taskutil_task_to_daemon(int nochdir,int nofileclose,int nostdclose,int nochildign)
+{
+    pid_t pid;
+    int     i = 0;
+    struct rlimit rl;
+    int filenum;
 
+    pid = fork();
+    if(pid > 0)
+    {
+        exit(0);
+    }
+    if(pid < 0)
+    {
+        exit(-1);
+    }
+
+    if(setsid() < 0 )
+    {
+        exit(-1);
+    }
+    
+    pid = fork();
+    if(pid > 0)
+    {
+        exit(0);
+    }
+
+    if(pid < 0)
+    {
+        exit(-1);
+    }
+      
+    if(!nostdclose)
+    {	    
+        for (; i < 3; i++)
+        {
+	    close(i);    
+        }
+    }
+
+    if(!nofileclose)
+    {
+        if (getrlimit(RLIMIT_NOFILE, &rl)  < 0)
+	{
+	    exit(-1);
+	}
+        filenum = rl.rlim_cur = rl.rlim_max;
+	setrlimit(RLIMIT_NOFILE, &rl);
+	for(i=3; i<filenum; i++)
+	{
+	    close(i); 
+	}
+    }
+   
+    if(!nochdir)
+    {
+        if(chdir("/") < 0)
+	{
+	    exit(-1);
+	}
+    }
+
+    if(!nochildign)
+    {
+        signal(SIGCHLD,SIG_IGN);
+    }
+
+    umask(0);
+
+    return;    
+
+}
 
 
 
