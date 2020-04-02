@@ -263,7 +263,7 @@ void taskutil_task_to_daemon(int nochdir,int nofileclose,int nostdclose,int noch
       
     if(!nostdclose)
     {	    
-        for (; i < 3; i++)
+        for (i = 0; i < 3; i++)
         {
 	    close(i);    
         }
