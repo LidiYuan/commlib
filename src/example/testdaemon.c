@@ -14,6 +14,7 @@ int main(int argc,char *artgv[])
 {
     
     int fd;
+    pid_t pid;
 
     printf("*****start a daemon\n");
     taskutil_task_to_daemon(0,0,0,0);
@@ -26,6 +27,19 @@ int main(int argc,char *artgv[])
         printf("open file error\n");
 	return -1;
     }
+
+    //(守护进程设置SIGCHILD忽略后)测试子进程是否会成为僵尸进程 
+    //用ps -ef | grep Z 看是否会存在僵尸进程
+    pid = fork();
+    if(pid <=0)
+    {
+        if(write(fd,"child:hello\n",strlen("child:hello\n")) <=0 )
+	{
+	    printf("write error\n");
+	}
+	exit(0);
+    }
+
 
     if(write(fd,"this is a daemon\n",strlen("this is a daemon\n")) <= 0)
     {
