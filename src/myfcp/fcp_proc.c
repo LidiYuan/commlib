@@ -10,6 +10,9 @@
 #include <sys/time.h>
 #include <sys/resource.h>
 #include <signal.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 #include "general.h"
 #include "fcp_proc.h"
@@ -231,9 +234,10 @@ int process_cmdline(unsigned int pid,char *linebuff,unsigned int size)
 void taskutil_task_to_daemon(int nochdir,int nofileclose,int nostdclose,int nochildign)
 {
     pid_t pid;
-    int     i = 0;
+    rlim_t     i = 0;
     struct rlimit rl;
-    int filenum;
+    rlim_t filenum;
+    int tmpfd;
 
     pid = fork();
     if(pid > 0)
@@ -261,12 +265,17 @@ void taskutil_task_to_daemon(int nochdir,int nofileclose,int nostdclose,int noch
         exit(-1);
     }
       
+    
     if(!nostdclose)
-    {	    
+    {
+        tmpfd = open("/dev/null", O_RDWR);	    
         for (i = 0; i < 3; i++)
         {
-	    close(i);    
+	    dup2(tmpfd, i);
         }
+
+	if(tmpfd > 2)
+	    close(tmpfd);
     }
 
     if(!nofileclose)
@@ -275,9 +284,14 @@ void taskutil_task_to_daemon(int nochdir,int nofileclose,int nostdclose,int noch
 	{
 	    exit(-1);
 	}
-        filenum = rl.rlim_cur = rl.rlim_max;
-	setrlimit(RLIMIT_NOFILE, &rl);
-	for(i=3; i<filenum; i++)
+
+        filenum =rl.rlim_max;
+	if(RLIM_INFINITY == filenum)
+	{
+	    filenum = 1024;
+	}
+
+        for(i=3; i<filenum; i++)
 	{
 	    close(i); 
 	}
