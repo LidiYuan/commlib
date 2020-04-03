@@ -121,4 +121,39 @@ int file_execute_type(const char *path)
 
 
 
+int fileutil_open_on_closeexec(const char *pathname, int flags, int mode)
+{	
+    int fd;
+
+    if( NULL == pathname || 0 == strlen(pathname))
+        return -1;
+
+#ifdef O_CLOEXEC
+    fd = open(pathname,flags | O_CLOEXEC,(mode_t)mode);
+    if(fd < 0)
+        return -1;
+
+    return fd;
+#endif
+
+#if defined(FD_CLOEXEC)
+
+    fd = open(pathname, flags, (mode_t)mode);
+
+    if( fd < 0)
+        return -1;
+
+    if (fcntl(fd, F_SETFD, FD_CLOEXEC) < 0)
+    {
+        close(fd);
+        return -1;
+    }
+    return fd;
+#endif
+
+    return -1;
+
+}
+
+
 

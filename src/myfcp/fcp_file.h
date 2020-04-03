@@ -43,6 +43,7 @@ extern int file_is_fifo(const char *path);
 extern int file_is_sock(const char *path);
 
 extern int file_execute_type(const char *path); /*返回类型如EXEC_TYPE_xxx*/
+extern int fileutil_open_on_closeexec(const char *pathname, int flags, int mode);
 
 
 #endif
