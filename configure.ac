@@ -1,6 +1,6 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
-AC_PREREQ([2.69])
+AC_PREREQ([2.63])
 AC_INIT([myfcp],[2.0.1],[yldfree@163.com])
 
 #包的版本号
@@ -12,7 +12,7 @@ LT_VERSION=2:0:1
 AC_CONFIG_SRCDIR([configure.ac])
 
 #将一些辅助脚本文件或m4文件放到m4目录
-AC_CONFIG_MACRO_DIRS([m4])
+#AC_CONFIG_MACRO_DIRS([m4]) 
 AC_CONFIG_AUX_DIR([m4])
 
 #AM_PATH_LOG4C([log])

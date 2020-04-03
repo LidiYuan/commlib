@@ -103,6 +103,9 @@ int main(int argc,char *argv[])
         case OS_VERSION_CENTOS7:
             printf("system version is centos7\n");
             break;
+	case OS_VERSION_CENTOS6:
+	    printf("system version is centos6\n");  
+	    break;  
         default:
             printf("Current system version is not adapter\n");
             break;

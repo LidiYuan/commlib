@@ -221,7 +221,15 @@ static int general_os_version_con(const char *filepath,unsigned int fieldnum,cha
     if(NULL == fieldptr[0] || NULL == fieldptr[fieldnum-1] )
         goto done;
 
-    snprintf(verbuff,bufsize,"%s%s",fieldptr[0],fieldptr[fieldnum-1]);
+    if( 0 == atoi(fieldptr[fieldnum-1]) && fieldnum > 2)
+    {
+	/*for centos 6.5*/     
+        snprintf(verbuff,bufsize,"%s%s",fieldptr[0],fieldptr[fieldnum-2]); 
+    }
+    else
+    {
+        snprintf(verbuff,bufsize,"%s%s",fieldptr[0],fieldptr[fieldnum-1]);
+    }
     ret = 0;
 
 done:
@@ -276,7 +284,9 @@ int general_os_version(void)
         return OS_VERSION_UBUNTU18;
     if(!strcmp("centos7",osversion))
         return  OS_VERSION_CENTOS7;
-
+    if(!strcmp("centos6",osversion))
+	return OS_VERSION_CENTOS6;
+    
     return -1;
 
 }
