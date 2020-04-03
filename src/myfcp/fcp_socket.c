@@ -134,4 +134,56 @@ int netutil_socket_unix_pair(int pair[2])
 }
 
 
+int netutil_socket_accept(int backlog,struct sockaddr *seraddr,int addrlen, pf_set_listen_socket listensock_callback, pf_accept_callback accept_callback)
+{
+    int sockfd;
+    int newfd;
+    int cliaddrlen;
+    struct sockaddr cliaddr;
+
+    sockfd = socket(seraddr->sa_family,SOCK_STREAM,0);
+    if(sockfd <= 0)
+    {
+       return -1;
+    }
+
+    if(NULL == listensock_callback)
+    {
+        if( 0 != listensock_callback(sockfd))
+        {
+            close(sockfd);
+            return -1;
+        }
+    }
+
+    if( 0 != bind(sockfd,seraddr, addrlen) )
+    {
+        close(sockfd);
+        return -1;
+    }
+
+    if( 0 != listen(sockfd,backlog)  )
+    {
+        close(sockfd);
+        return -1;
+    }
+
+con:
+    cliaddrlen = addrlen;
+    newfd = accept(sockfd,&cliaddr,&cliaddrlen);
+
+    if(NULL != accept_callback)
+    {
+       if( 0 == accept_callback(newfd,&cliaddr,cliaddrlen) )
+       {
+           goto con;        
+       }
+    }
+
+    close(sockfd);
+
+    return 0;    
+}
+
+
 
