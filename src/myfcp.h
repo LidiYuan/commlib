@@ -9,6 +9,6 @@
 #include <myfcp/fcp_file.h>
 #include <myfcp/fcp_string.h>
 #include <myfcp/fcp_socket.h>
-
+#include <myfcp/fcp_mm.h>
 
 #endif
