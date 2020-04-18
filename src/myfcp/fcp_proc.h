@@ -2,6 +2,14 @@
 #define _FCP_PROC_H_
 
 
+enum{
+  ELF_TYPE_ERROR = -1,
+  ELF_TYPE_EXE,
+  ELF_TYPE_DYN,
+  ELF_TYPE_CORE,
+  ELF_TYPE_REL,
+  ELF_TYPE_OTHER,
+};
 
 enum task_state{
     TASK_STAT_RUNNIG = 0,             // R		

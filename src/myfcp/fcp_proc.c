@@ -13,9 +13,54 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <elf.h>
 
 #include "general.h"
 #include "fcp_proc.h"
+
+
+/*
+  函数功能 获得elf的类型
+  返回值为ELF_TYPE_* 类型 
+*/
+
+int procutils_elf_type(const char *filename)
+{
+    FILE *fp = NULL;
+    Elf32_Ehdr  hdr={0};
+    int ret;
+
+    fp = fopen(filename,"r");
+    if(NULL == fp)
+           return ELF_TYPE_ERROR;
+
+    if((ret = fread(&hdr,1,sizeof(hdr),fp)) != sizeof(hdr))
+    {
+         fclose(fp);
+         return ELF_TYPE_OTHER;
+    }
+    fclose(fp);
+
+    if( !(hdr.e_ident[0] == 0x7f  && hdr.e_ident[1] == 'E' &&  hdr.e_ident[2] == 'L' && hdr.e_ident[3] == 'F') )
+       return ELF_TYPE_OTHER;
+
+    switch(hdr.e_type)
+    {
+        case ET_REL:
+            return ELF_TYPE_REL;
+        case ET_EXEC:
+            return ELF_TYPE_EXE;
+        case ET_DYN:
+            return ELF_TYPE_DYN;
+        case ET_CORE:
+            return ELF_TYPE_CORE;
+        default:
+            return ELF_TYPE_OTHER;
+    }
+
+    return ELF_TYPE_ERROR;
+}
+
 
 
 int com_find_proc_pid(procpid_cb callback,void *userarg)
