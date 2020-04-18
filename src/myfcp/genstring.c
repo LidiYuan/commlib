@@ -45,7 +45,41 @@ char *gen_right_strim(char *str)
 
 char *gen_strim(char *str)
 {
-	return gen_left_strim(gen_right_strim(str));
+    return gen_left_strim(gen_right_strim(str));
+}
+
+
+
+/*
+ *返回文件路径的最后一部分 如/te/das/da//  将返回da//
+ *如果是 filepath是 / 将返回NULL
+ * */
+char *gen_path_last_component(const char *filepath)
+{
+    const char  *base = filepath;
+    const char  *p;
+    int next_slash = 0;
+
+    if (NULL == filepath || 0 == strlen(filepath))
+        return NULL;
+
+    while('/' == *base)
+            base++;
+
+    for (p = base; *p; p++)
+    {
+        if( '/' == *p)
+        {
+            next_slash = 1;
+        }
+        else if(next_slash)
+        {
+            base = p;
+            next_slash = 0;
+        }
+    }
+
+    return (char*)(base);          
 }
 
 

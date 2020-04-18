@@ -47,7 +47,11 @@ int main(int argc,char *argv[])
         printf("file md5 [/etc/passwd]=>%s\n",md5sum);
     }
 
-
+    if(NULL != (tmpstr1 = strutils_path_last_component("/te/da/sss///")) )
+    {
+        printf("path[ /te/da/sss/// ]last component is %s\n",tmpstr1);
+    }
+    
 
     return 0;
 }

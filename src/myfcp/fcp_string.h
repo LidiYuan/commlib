@@ -25,5 +25,6 @@ extern char *fcp_base64_decode(const char *code);
 
 extern int fcp_file_md5(const char *file_path, char *md5_str);
 extern int fcp_string_md5(unsigned char *str, unsigned int str_len, char *md5_str);
+extern char *strutils_path_last_component(const char *filepath);
 
 #endif

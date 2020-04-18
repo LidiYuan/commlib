@@ -47,3 +47,16 @@ int fcp_string_md5(unsigned char *str, unsigned int str_len, char *md5_str)
     return gen_string_md5(str,str_len,md5_str);
 }
 
+
+/*
+ *返回文件路径的最后一部分 如:
+ *   /te/das/da//    将返回da//
+ *   /te/das///da    将放回da
+ *   ///             将返回NULL
+ *   /               将返回NULL
+ */
+char *strutils_path_last_component(const char *filepath)
+{
+    return gen_path_last_component(filepath);
+}
+
