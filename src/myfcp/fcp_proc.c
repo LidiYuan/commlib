@@ -24,7 +24,7 @@
   返回值为ELF_TYPE_* 类型 
 */
 
-int procutils_elf_type(const char *filename)
+int taskutil_elf_type(const char *filename)
 {
     FILE *fp = NULL;
     Elf32_Ehdr  hdr={0};
