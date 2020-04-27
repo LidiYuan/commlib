@@ -1,6 +1,6 @@
 #ifndef __FCP_SIGNAL_H_
 #define __FCP_SIGNAL_H_
-
+#include <signal.h>
 
 typedef void (*pf_sig_handler)(int);
 extern int sigutil_sig_add(int sig,pf_sig_handler handler);

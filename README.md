@@ -131,16 +131,35 @@ src/myfcp/fcp_base.c   一些杂项操作
 	使用举例看src/example/testproc.c
 	
 	5)extern int process_cmdline(unsigned int pid,char *linebuff,unsigned int size);
-	功能:
-		获得某个进程的命令行
-	参数:
-		pid:进程pid
-		linebuff:返回进程的命令行
-		size: 缓存的大小
-	返回值:
-		失败返回-1,成功返回0		
-	使用举例看src/example/testproc.c
-	
+		功能:
+			获得某个进程的命令行
+		参数:
+			pid:进程pid
+			linebuff:返回进程的命令行
+			size: 缓存的大小
+		返回值:
+			失败返回-1,成功返回0		
+		使用举例看src/example/testproc.c
+    
+	6) int taskutil_kill_task(pid_t pid)
+		功能: 根据pid杀掉一个进程
+		参数:
+			   pid  进程的pid
+		返回值:
+			   成功返回0， 失败返回-1	
+    
+	7) int taskutil_elf_type(const char *filename)
+	   功能: 获得elf文件的类型 
+       参数:
+             filename 文件路径
+       返回值: 如下类型值
+            ELF_TYPE_ERROR,  获取失败
+			ELF_TYPE_EXE,    可执行文件
+			ELF_TYPE_DYN,    动态库  
+			ELF_TYPE_CORE,   core文件
+			ELF_TYPE_REL,     重定向文件
+			ELF_TYPE_OTHER,	  未识别  
+
 
 (3) OS信息获取相关
 	1) extern int os_info_uuid(char *buff,unsigned int bufsize);

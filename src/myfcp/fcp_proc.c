@@ -14,6 +14,8 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <elf.h>
+#include <sys/types.h>
+#include <signal.h>
 
 #include "general.h"
 #include "fcp_proc.h"
@@ -23,7 +25,6 @@
   函数功能 获得elf的类型
   返回值为ELF_TYPE_* 类型 
 */
-
 int taskutil_elf_type(const char *filename)
 {
     FILE *fp = NULL;
@@ -61,6 +62,19 @@ int taskutil_elf_type(const char *filename)
     return ELF_TYPE_ERROR;
 }
 
+/*
+ *功能: 根据pid杀掉一个进程
+  参数:
+       pid  进程的pid
+  返回值:
+       成功返回0， 失败返回-1
+ **/
+int taskutil_kill_task(pid_t pid)
+{
+     if( kill(pid,SIGKILL) != 0 )
+         return -1;
+     return 0;
+}
 
 
 int com_find_proc_pid(procpid_cb callback,void *userarg)
