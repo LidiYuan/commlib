@@ -10,5 +10,6 @@
 #include <myfcp/fcp_string.h>
 #include <myfcp/fcp_socket.h>
 #include <myfcp/fcp_mm.h>
+#include <myfcp/fcp_signal.h>
 
 #endif

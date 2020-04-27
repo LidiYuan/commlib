@@ -15,6 +15,6 @@ extern int netutil_socket_closeonexec(int sockfd);
 extern int netutil_socket_nonblock_connect(const struct sockaddr *sa, int socklen);
 extern int netutil_socket_block_connect(const struct sockaddr *seraddr, int socklen);
 extern int netutil_socket_unix_pair(int pair[2]);
-extern int netutil_socket_accept(int backlog,struct sockaddr *seraddr,int addrlen, pf_set_listen_socket listensock_callback, pf_accept_callback accept_callback);
+extern int netutil_socket_accept(int sockfd,int backlog,struct sockaddr *seraddr,int addrlen, pf_set_listen_socket listensock_callback, pf_accept_callback accept_callback);
 
 #endif

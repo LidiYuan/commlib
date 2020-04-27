@@ -44,13 +44,14 @@ int net_set_listen_sock(int listensock)
 int main(int argc,char *argv[])
 {
     
+    int sockfd;
     struct sockaddr_in seraddr={0};
 
     seraddr.sin_family = AF_INET;
     seraddr.sin_port = htons(8090);
     seraddr.sin_addr.s_addr = INADDR_ANY;    
  
-    if( 0 != netutil_socket_accept( 5, (struct sockaddr*)&seraddr,sizeof(seraddr),net_set_listen_sock,net_accept_callbck))
+    if( (sockfd = netutil_socket_accept(-1, 5, (struct sockaddr*)&seraddr,sizeof(seraddr),net_set_listen_sock,net_accept_callbck)) <= 0)
     {
         printf("create accept error\n");
     }

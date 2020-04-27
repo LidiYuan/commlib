@@ -3,7 +3,7 @@
 
 
 AM_CPPFLAGS=-I$(top_srcdir)/src  
-noinst_PROGRAMS=testproc testnet testos testfile teststring testdaemon acceptser acceptcli
+noinst_PROGRAMS=testproc testnet testos testfile teststring testdaemon acceptser acceptcli testsignal
 MYFCP_PATH=$(top_srcdir)/src/myfcp/libmyfcp.la
 
 testproc_SOURCES=testproc.c 
@@ -30,4 +30,7 @@ acceptser_LDADD=$(MYFCP_PATH)
 
 acceptcli_SOURCES=acceptcli.c
 acceptcli_LDADD=$(MYFCP_PATH)
+
+testsignal_SOURCES=testsignal.c
+testsignal_LDADD=$(MYFCP_PATH)
 

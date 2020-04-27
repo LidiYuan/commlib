@@ -53,10 +53,10 @@ struct fcp_one_item{
 };
 
 
-
-
 typedef void(*genlog_cb)(const char *msg);
 extern void fcp_set_log_cb(genlog_cb errcb, genlog_cb debugcb);
+
+
 extern int program_is_running(const char *path);
 
 

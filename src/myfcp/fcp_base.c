@@ -9,7 +9,6 @@
 #include "fcp_base.h"
 #include "genlog.h"
 
-
 void fcp_set_log_cb(genlog_cb errcb, genlog_cb debugcb)
 {
     return genlog_set_cb(errcb, debugcb);
@@ -20,10 +19,12 @@ int program_is_running(const char *path)
 {
     int fd;
     int ret;
-    const char *tmppath = "/tmp/.procforbid";
+    const char *tmppath = NULL;
 
     if(NULL != path)
         tmppath = path;
+    else
+        return -1;
 
     fd = open(tmppath,O_CREAT|O_WRONLY, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH);
     if (fd < 0)

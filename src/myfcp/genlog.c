@@ -16,7 +16,7 @@ static void genlog_error_output(const char *msg);
 static void genlog_debug_output(const char *msg);
 
 
-static genlog_cb genlog_cb_arr[LOG_LEVEL_TYPE_MAX] = {
+static pf_genlog_cb genlog_cb_arr[LOG_LEVEL_TYPE_MAX] = {
                genlog_error_output,  //LOG_LEVEL_TYPE_ERROR
                genlog_debug_output,  //LOG_LEVEL_TYPE_DEBUG
 };
@@ -30,7 +30,7 @@ static void genlog_error_output(const char *msg)
     syslog(LOG_ERR,"%s",msg);
     closelog();
 #else
-    printf("Err: %s\n",msg);
+    printf("Err: %s",msg);
 #endif
 
     return;
@@ -45,19 +45,26 @@ static void genlog_debug_output(const char *msg)
     syslog(LOG_DEBUG,"%s",msg);
     closelog();
 #else
-    printf("Debug: %s\n",msg);
+    printf("Debug: %s",msg);
 #endif    
 
     return;
 }
 
 
-void genlog_set_cb(genlog_cb errcb, genlog_cb debugcb)
+void genlog_set_cb(pf_genlog_cb errcb, pf_genlog_cb debugcb)
 {
-    genlog_cb_arr[LOG_LEVEL_TYPE_ERROR] = errcb;
-    genlog_cb_arr[LOG_LEVEL_TYPE_DEBUG] = debugcb;
-}
+    if(NULL != errcb)    
+        genlog_cb_arr[LOG_LEVEL_TYPE_ERROR] = errcb;
+    else
+        genlog_cb_arr[LOG_LEVEL_TYPE_ERROR] = genlog_error_output;
 
+    if(NULL != debugcb)
+        genlog_cb_arr[LOG_LEVEL_TYPE_DEBUG] = debugcb;
+    else
+        genlog_cb_arr[LOG_LEVEL_TYPE_DEBUG] = genlog_debug_output;
+            
+}
 
 void genlog_print(int loglevel, const char *fmt, ...)
 {
