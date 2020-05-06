@@ -76,7 +76,7 @@ void genlog_print(int loglevel, const char *fmt, ...)
    n = vsnprintf(NULL, 0, fmt, ap);
    va_end(ap);
 
-   if(n < 0)
+   if(n <= 0)
    {
        return;
    }

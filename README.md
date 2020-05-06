@@ -159,7 +159,10 @@ src/myfcp/fcp_base.c   一些杂项操作
 			ELF_TYPE_CORE,   core文件
 			ELF_TYPE_REL,     重定向文件
 			ELF_TYPE_OTHER,	  未识别  
-
+    8) int taskutil_current_session(void)
+	   功能: 获得当前的会话id
+       参数:无
+       返回值: 成功返回sessid 失败返回-1	   
 
 (3) OS信息获取相关
 	1) extern int os_info_uuid(char *buff,unsigned int bufsize);
@@ -316,6 +319,8 @@ src/myfcp/fcp_base.c   一些杂项操作
 			EXEC_TYPE_OTHER_SCRPT,      /*暂未识别的脚本*/
 	使用举例:
 		src/example/testfile.c	
+		
+		
 (5)	字符串操作相关(返回值为指向str串的地址) 
 	1) char *fcp_left_strim(char *str)  去掉左边的空格
 	   char *fcp_right_strim(char *str) 去掉右边的空格
@@ -406,10 +411,22 @@ src/myfcp/fcp_base.c   一些杂项操作
 	3) int sigutil_sig_delall(void)
 	   功能: 恢复add添加的所有信号
 	   参数: 无
-       返回值: 始终返回0	   
-
-
-
+       返回值: 始终返回0	
+	   
+    4) int sigutil_ignore_all_sig(void)
+	   功能:将忽略所有的信号信息
+	   参数:无
+	   返回值: 始终返回0
+	   
+    5) int sigutil_unblock_sig(int signum) 
+	   功能:在某个进程中 取消阻塞某个信号
+       参数:信号值 1~NSIG-1
+       返回值:成功返回0 失败返回-1
+	   
+    6) int sigutil_block_sig(int signum)
+       功能: 将某个信号进行阻塞
+       参数:信号值 1~NSIG-1
+       返回值:成功返回0 失败返回-1	   
 
 
 

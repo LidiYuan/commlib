@@ -47,4 +47,6 @@ extern int taskutil_task_proc_stat(unsigned int pid, struct task_proc_stat *psta
 extern void taskutil_task_to_daemon(int nochdir,int nofileclose,int nostdclose,int nochildign);
 extern int taskutil_elf_type(const char *filename);
 extern int taskutil_kill_task(pid_t pid);
+extern int taskutil_current_session(void);
+
 #endif

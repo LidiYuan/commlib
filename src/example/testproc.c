@@ -16,12 +16,22 @@ int main(int argc,char *argv[])
     char buff[512]={0};
     struct task_proc_stat state={0};
     int pid;
+    int ret;
 
     if(argc < 2)
     {
         printf("Usage:  testproc  pid\n");
-	return -1;
+	    return -1;
     } 
+    if( (ret = taskutil_current_session()) > 0)
+    {
+        printf("curret session id is %d\n",ret);
+    }
+    else
+    {
+        printf("Get current session id is error\n");
+    }
+
     pid = atoi(argv[1]);
     if(pid <=0 )
     {

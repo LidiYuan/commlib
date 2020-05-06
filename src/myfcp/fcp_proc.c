@@ -16,6 +16,7 @@
 #include <elf.h>
 #include <sys/types.h>
 #include <signal.h>
+#include <errno.h>
 
 #include "general.h"
 #include "fcp_proc.h"
@@ -76,6 +77,39 @@ int taskutil_kill_task(pid_t pid)
      return 0;
 }
 
+
+/*
+ *功能:获得当前会话id
+  参数:无
+  返回值: 成功返回当前会话id 失败返回-1
+ * */
+int taskutil_current_session(void)
+{
+    int fd;
+    char buff[16]={0};
+    int len;
+    unsigned int sessid;
+
+    fd = open("/proc/self/sessionid", O_NOFOLLOW|O_RDONLY);
+    if(fd < 0 )
+        return -1;
+
+    do {
+		len = read(fd, buff, sizeof(buff));
+	} while (len < 0 && errno == EINTR);
+        
+    close(fd);
+
+    if (len < 0 || len >= sizeof(buff))
+	    return -1;
+    buff[len] = 0;
+	errno = 0;
+    sessid = strtoul(buff, 0, 10); 
+    if(errno)
+       return -1;
+
+    return (int)sessid;
+}
 
 int com_find_proc_pid(procpid_cb callback,void *userarg)
 {
