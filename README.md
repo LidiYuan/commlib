@@ -1,10 +1,13 @@
 # 【库介绍】 #
+
+
 库的名称为`myfcp` (my function componets),此库致力于实现一些linux上基本的信息获取,让使用者能够专注于业务的实现.  
 
 维护人员邮件地址 <yldfree@163.com>  
 github地址 <https://github.com/LidiYuan/commlib.git> 
 
 # 【库中文件介绍】 #
+
 
 ## 1. 头文件介绍
 #### `src/myfcp.h`             
@@ -52,7 +55,7 @@ github地址 <https://github.com/LidiYuan/commlib.git>
 
 
 # 【适配版本】 #
-======================================= 
+ 
 
 - ubuntu18  
 - centos7   
@@ -60,9 +63,9 @@ github地址 <https://github.com/LidiYuan/commlib.git>
 		
 
 # 【函数介绍】 #
-=======================================
-1. 网络操作相关
----------------------------------------  
+
+## 1. 网络操作相关
+
 #### `extern int com_foreach_local_ipv4(COMM_SIP_CALLBACK singleip,void *arg)`
 - **功能描述**
 	>遍历本地所有的ipv4  
@@ -124,8 +127,8 @@ github地址 <https://github.com/LidiYuan/commlib.git>
 	LISTEN  
 	CLOSING  
 	 
-2. 进程操作相关
----------------------------------------
+## 2. 进程操作相关
+
 #### `extern int com_find_proc_pid(procpid_cb callback,void *userarg)`
 - **功能**
 	>遍历/proc下的所有pid
@@ -202,8 +205,8 @@ github地址 <https://github.com/LidiYuan/commlib.git>
 - **返回值** 
 	>成功返回sessid 失败返回-1	   
 
-3. OS信息获取相关
----------------------------------------
+## 3. OS信息获取相关
+
 #### `extern int os_info_uuid(char *buff,unsigned int bufsize)`
 - **功能**
 	>获得系统的uuid
@@ -296,8 +299,8 @@ github地址 <https://github.com/LidiYuan/commlib.git>
 	>成功返回0  失败返回-1
 - **使用举例** `src/example/testos.c`
 		
-4. 文件操作相关  
----------------------------------------
+## 4. 文件操作相关  
+
 #### `extern int comm_foreach_dir_entry(const char *path,struct file_item *entry)`
 - **功能** 
 	>遍历目录path下的所有目录
@@ -366,8 +369,8 @@ github地址 <https://github.com/LidiYuan/commlib.git>
 - **使用举例**`src/example/testfile.c`	
 		
 		
-5.字符串操作相关 
----------------------------------------  
+## 5.字符串操作相关 
+
 #### `char *fcp_left_strim(char *str)`   
 - **功能描述**
 	>去掉左边的空格  
@@ -378,8 +381,8 @@ github地址 <https://github.com/LidiYuan/commlib.git>
 - **功能描述**
 	>去掉左边和右边的空格  
     	   
-6.其他相关操作  
----------------------------------------		
+## 6.其他相关操作  
+	
 #### `extern void fcp_set_log_cb(genlog_cb errcb, genlog_cb debugcb)`
 - **功能** 
 	>设置库函数日志的输出回调,在为设置回调的情况下,若./configure 使用了--enable-stderr=yes则错误消息将显示在标准错误输出上。若./configure 没有使用--enable-stderr=yes或使用了--enable-stderr=no 则错误将在syslog日志中显示。
@@ -390,8 +393,8 @@ github地址 <https://github.com/LidiYuan/commlib.git>
 - **返回值**
 	>无
 	
-7. socket操作相关  
----------------------------------------
+## 7. socket操作相关  
+
 #### `int netutil_socket_nonblocking(int sockfd)`  
 - **功能**
 	>将给定的socket设置为非阻塞socket  
@@ -462,8 +465,8 @@ github地址 <https://github.com/LidiYuan/commlib.git>
 - **注意**
 	>需要用户自己close 监听和连接的socket的描述符   
 
-8. 信号的相关处理  
----------------------------------------
+## 8. 信号的相关处理  
+
 #### `注意说明`
 >在其中会保存一个全局变量,用于保存用户修改过的信号,可以方便用户用del函数快速恢复信号原先的处理方式
 
